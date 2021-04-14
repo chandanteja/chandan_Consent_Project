@@ -1,0 +1,91 @@
+
+    
+<div fxLayoutAlign="center left" fxFlexFill class="main-div">
+    <mat-card > 
+        <form fxLayout="standard"  [formGroup]="registrationForm" (ngSubmit)="addUser()">   
+            <div fxLayout="column"> 
+                <div fxLayoutGap="15px" >
+                    
+                    <div>
+                        <mat-toolbar color="primary" style="width: 11.05cm; margin-bottom: 0.5cm;">Add Patient Details</mat-toolbar>
+                    </div>
+                    <mat-form-field appearance="fill" class="row-1">
+                        <mat-label>Enter First Name</mat-label>
+                        <input matInput  name="fName" [(ngModel)]="firstname" formControlName="firstName">
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="row-1">
+                        <mat-label>Enter Last Name</mat-label>
+                        <input matInput  name="lName" [(ngModel)]="lastname" formControlName="lastName">
+                    
+                    </mat-form-field>
+                </div>
+                <div fxLayoutGap="15px">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Enter Email-ID</mat-label>
+                        <input matInput pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" formControlName="email" >
+                    
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Enter Phonenumber</mat-label>
+                        <input matInput pattern="[789][0-9]{9}"  formControlName="phoneNumber">
+                    
+                    </mat-form-field>
+                </div>
+                <div fxLayoutGap="15px">
+                    <mat-form-field appearance="fill">
+                        <mat-label style="font-size: 20px;"> Address </mat-label>
+                        <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="4" formControlName="address">
+
+                        </textarea>
+                      </mat-form-field>
+                      <mat-form-field appearance="fill">
+                        <mat-label>Age</mat-label>
+                        <input matInput formControlName="age">
+                    
+                     </mat-form-field>
+                </div>
+
+                <div fxLayoutGap="15px">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Enter Bloodgroup</mat-label>
+                        <input matInput pattern="(A|B|AB|O)[+-]"  formControlName="bloodGroup">
+                    
+                    </mat-form-field>  
+                </div>
+                
+                <div  fxLayout="row">
+                    <mat-radio-group aria-label="Select an option" formControlName="gender">
+                        <mat-radio-button value="Male" style="padding-right: 10px;" checked="true">Male  </mat-radio-button>
+                        <mat-radio-button value="Female" >Female</mat-radio-button>
+                    </mat-radio-group>
+                      
+                </div>
+                <div fxLayoutGap="15px">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Enter OTP</mat-label>
+                        <input matInput formControlName="otp" required>
+                    
+                    </mat-form-field>
+                    <button type="button" class="btn btn-outline-primary" (click)="generateOTP()" style="">Send OTP</button>
+                    
+                </div>
+                <div *ngIf="showTimer">
+                  <p><b>{{timeLeft}} seconds left for expiry of the OTP sent...</b></p> 
+
+                </div>
+
+                <div >
+                    <mat-checkbox  class="example-margin" formControlName="consent">
+                        <label>I, Give Consent to Store My Medical Data Electronically </label>
+                    </mat-checkbox>
+                      
+                </div>
+
+                <button  class="btn btn-outline-primary"  type="submit" style="width: fit-content;">Add Details</button>
+            </div>
+
+        </form>
+    </mat-card>
+
+</div>
+

@@ -1,0 +1,42 @@
+
+<div fxLayoutAlign="center center" fxFlexFill class="main-div">
+    <mat-card fxFlex="30">
+        <mat-toolbar color="primary">Login Page</mat-toolbar>
+        <form  fxLayoutAlign="stretch" fxLayout="column" class="login-form" [formGroup]="formGroup" (ngSubmit)="loginProcess()">
+            <mat-form-field >
+
+              <mat-label>USERNAME</mat-label>
+              <input type = "text" name="uname" [(ngModel)]="userName" matInput placeholder="Enter your Username" formControlName="USERNAME">
+            </mat-form-field>
+          
+            <mat-form-field >
+              <mat-label>PASSWORD</mat-label>
+              <input matInput type="password" name="passwd" [(ngModel)]="password" placeholder="Enter your Password" formControlName="PASSWORD">
+            </mat-form-field>
+
+
+            <mat-form-field appearance="fill">
+                <mat-label>ROLE</mat-label>
+                <mat-select  name="role" [(ngModel)]="selectedRole" formControlName="ROLE">
+                  <mat-option *ngFor="let roleVal of roles" [value]="roleVal.value">
+                    {{roleVal.viewValue}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+
+              
+
+            <button mat-raised-button type="submit" >Login</button>
+            <div>
+                <p>Role: {{selectedRole}}</p>
+                
+            </div>
+            
+          </form>
+
+          <div *ngIf="invalidLogin" class="alert alert-danger">Invalid username and/or password.</div>
+          
+        </mat-card>
+       
+</div>
