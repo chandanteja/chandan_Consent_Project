@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.inject.Named;
 
 @Named
-public class PatientDetailsService {
+public class PatientRegistrationService {
    PatientDemographicDetailsRepository patientDemoDetailsRepo;
    DemographicDetails demo ;
 
    @Autowired
-   public PatientDetailsService(PatientDemographicDetailsRepository patientDemoDetailsRepo, DemographicDetails demo)
+   public PatientRegistrationService(PatientDemographicDetailsRepository patientDemoDetailsRepo, DemographicDetails demo)
    {
        this.patientDemoDetailsRepo = patientDemoDetailsRepo;
        this.demo = demo;
@@ -31,7 +31,7 @@ public class PatientDetailsService {
        demo.setGender(demoDetails.getGender());
        demo.setConsent(demoDetails.getConsent());
 
-       demo = patientDemoDetailsRepo.save(demo);
+      // demo = patientDemoDetailsRepo.save(demo);
 
        if(demo == null)
              return false;

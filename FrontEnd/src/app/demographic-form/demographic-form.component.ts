@@ -10,6 +10,7 @@ import { RegisterService } from '../services/register.service';
 import { OtpService } from '../services/otp.service';
 import { timer } from 'rxjs';
 import { Observable } from 'rxjs';
+import { DataSharingService } from '../services/data-sharing.service';
 
 
 
@@ -29,15 +30,27 @@ export class DemographicFormComponent implements OnInit {
   timeLeft: number = 300;
   interval!: any;
   public flag: any; // 0-> false. 1->true.
+  loginEmail!: string;
+  deleteEmailStatus! : Number;
    
 
 
-  constructor(private _ngZone: NgZone, private router:Router, private regService: RegisterService,private otpService: OtpService) {}
+  constructor(private _ngZone: NgZone, private router:Router, private regService: RegisterService,private otpService: OtpService, private dataSharing: DataSharingService) {}
   
   ngOnInit(): void {
 
     console.log("inside nginit of demographic form");
     this.registerForm();
+    this.loginEmail = this.dataSharing.getEmail("EmailID");
+
+    console.log("Inside [demographic form commponent-adduser()] Email is: ",this.loginEmail);
+
+    this.deleteEmailStatus = this.dataSharing.deleteEmail("EmailID");
+    if(this.deleteEmailStatus ==  1)
+        console.log("Email deleted successfully in the data sharing object");
+    else
+        console.log("EMail not deleted in datasharing object");
+    
 
 
   }
@@ -57,7 +70,8 @@ registerForm()
     bloodGroup: new FormControl('',[Validators.required]),
     gender: new FormControl('',[Validators.required]),
     otp: new FormControl('',[Validators.required]),
-    consent: new FormControl('',[Validators.required],)
+    consent: new FormControl('',[Validators.required],),
+    purpose: new FormControl('',[Validators.required],)
 
     })
     console.log("End of registrationform method");
@@ -67,6 +81,10 @@ addUser()
 {
   console.log("inside adduser()");
   console.log("registration form values: ",this.registrationForm.value);
+  // WHen add new partient is selected by receptionist then the operation is "CREATE" by default. So, we can hardcode here.
+  // We will have different form for the update of existing patients.
+  this.registrationForm.addControl('operation',new FormControl('CREATE')); 
+  this.registrationForm.addControl('loginEmail',new FormControl(this.loginEmail)); 
 
   if(!(this.registrationForm.controls['otp'].valid))
   {

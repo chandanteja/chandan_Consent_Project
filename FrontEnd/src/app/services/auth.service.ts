@@ -13,17 +13,10 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
- /* login(credentials: any)
-  {
-      
-      return this.http.post('http://localhost:3000/api/users/login',JSON.stringify(credentials)).pipe(map((response: any) =>{console.log(response.json())}));
-
-  }
-  */
-
+ 
   login(credentials: any):Observable<any> {
-    console.log("Inside AUthService: ",credentials.USERNAME)
-    console.log("Inside AUthService: ",credentials.PASSWORD)
-    return this.http.post(`${baseUrl}login`,credentials)
+    console.log("Inside AUthService: ",credentials.email)
+    console.log("Inside AUthService: ",credentials.password)
+    return this.http.post(`${baseUrl}actorlogin`,credentials)
   }
 }

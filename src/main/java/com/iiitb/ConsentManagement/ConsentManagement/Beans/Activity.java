@@ -4,6 +4,16 @@ package com.iiitb.ConsentManagement.ConsentManagement.Beans;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+
+
+/**
+ * This is the class for Activities that a Hospital Offers.
+ * This class contains basic set of Activities with which we are proceeding with. We can add more Activities depending on hospital policy.
+ *
+ */
+
+
 
 @Entity
 @Component
@@ -11,34 +21,57 @@ import javax.persistence.*;
 public class Activity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer ID;     // This is auto generated ID
-
-    @Column(nullable = false,unique = true)
-    private String activityID;      // This is ID for unique Identification, auto gen ID won't work because of auto increment
-
+    private String activityID;
 
     @Column(nullable = false)
-    private String activityName;
+    @Enumerated(EnumType.STRING)
+    private ActivityType activityType;
 
 
+    @ManyToOne
+    @JoinColumn(name = "patientID_FK",referencedColumnName = "patientID")
+    private DemographicDetails demographicDetails;
+
+
+    @ManyToOne
+    @JoinColumn(name = "healthServiceID_FK",referencedColumnName = "healthServiceID")
+    private HealthService healthService;
+
+// The start and end times need to be placed in different table as the same activity can have different times.
+
+    @Column
+    private LocalDateTime startTime;
+
+    @Column
+    private LocalDateTime endTime;
 
 
     public Activity() {
     }
 
-    public Activity(Integer ID, String activityID, String activityName) {
-        this.ID = ID;
+    public DemographicDetails getdemographicDetails() {
+        return demographicDetails;
+    }
+
+    public void setdemographicDetails(DemographicDetails demographicDetails) {
+        this.demographicDetails = demographicDetails;
+    }
+
+    public HealthService gethealthService() {
+        return healthService;
+    }
+
+    public void sethealthService(HealthService healthService) {
+        this.healthService = healthService;
+    }
+
+    public Activity(String activityID, ActivityType activityType, DemographicDetails demographicDetails, HealthService healthService, LocalDateTime startTime, LocalDateTime endTime) {
         this.activityID = activityID;
-        this.activityName = activityName;
-    }
-
-    public Integer getID() {
-        return ID;
-    }
-
-    public void setID(Integer ID) {
-        this.ID = ID;
+        this.activityType = activityType;
+        this.demographicDetails = demographicDetails;
+        this.healthService = healthService;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 
     public String getActivityID() {
@@ -49,13 +82,43 @@ public class Activity {
         this.activityID = activityID;
     }
 
-    public String getActivityName() {
-        return activityName;
+    public ActivityType getActivityType() {
+        return activityType;
     }
 
-    public void setActivityName(String activityName) {
-        this.activityName = activityName;
+    public void setActivityType(ActivityType activityType) {
+        this.activityType = activityType;
     }
 
+    public DemographicDetails getDemographicDetails() {
+        return demographicDetails;
+    }
 
+    public void setDemographicDetails(DemographicDetails demographicDetails) {
+        this.demographicDetails = demographicDetails;
+    }
+
+    public HealthService getHealthService() {
+        return healthService;
+    }
+
+    public void setHealthService(HealthService healthService) {
+        this.healthService = healthService;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
 }

@@ -26,7 +26,9 @@ import { DemographicFormComponent } from './demographic-form/demographic-form.co
 
 import {MatCheckboxModule} from '@angular/material/checkbox'; 
 
-import {MatRadioModule} from '@angular/material/radio'; 
+import {MatRadioModule} from '@angular/material/radio';
+import { ReceptionistComponent } from './receptionist/receptionist.component';
+import { NavbarReceptionistComponent } from './navbar-receptionist/navbar-receptionist.component'; 
 
 @NgModule({
   declarations: [
@@ -35,6 +37,8 @@ import {MatRadioModule} from '@angular/material/radio';
     NavbarComponent,
     HomePageComponent,
     DemographicFormComponent,
+    ReceptionistComponent,
+    NavbarReceptionistComponent,
 
   ],
   imports: [

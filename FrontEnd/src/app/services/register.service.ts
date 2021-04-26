@@ -14,17 +14,20 @@ export class RegisterService {
 
   register(demoDetails: any):Observable<any> {
    
-    console.log("We are in auth service before gng to spring boot.");
-    console.log("type is: ", typeof(demoDetails));
-    console.log("demoDetails are: ", demoDetails);
-    console.log("type is: ", typeof(JSON.stringify(demoDetails)));
-    console.log(this.httpClient.post(`${baseUrl}register`, demoDetails));
+    console.log("We are in register service- register() before gng to spring boot.");
+    console.log("demoDetails inside register() are: ", demoDetails);
+    console.log("Login email (added separately) is: ",demoDetails['loginEmail']);
+    
+    // console.log("type is: ", typeof(demoDetails));
+    //console.log("type is: ", typeof(JSON.stringify(demoDetails)));
+   // console.log(this.httpClient.post(`${baseUrl}register`, demoDetails));
 
     return this.httpClient.post(`${baseUrl}register`,demoDetails,{responseType : "text"});
   }
 
   validateOTP(OTP: number, EMAIL: string):Observable<any>
   {
+    console.log("We are in register service - validateOTP() before gng to spring boot.");
     console.log("Inside validateOTP service method ");
     console.log("OTP: ",OTP,"  Email: ",EMAIL);
     

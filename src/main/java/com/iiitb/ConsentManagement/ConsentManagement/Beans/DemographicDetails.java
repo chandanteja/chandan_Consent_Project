@@ -12,8 +12,7 @@ import javax.validation.constraints.Email;
 public class DemographicDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer patientID;
+    private String patientID;
 
     @Column(nullable = false)
     private String firstName;
@@ -39,16 +38,26 @@ public class DemographicDetails {
     @Column(nullable=false)
     private String gender;
 
+    @Column(nullable = false)
+    private String purpose;
+
     @Transient
-    private Integer otp; //no column needs to be created
+    private Integer otp; //no column needs to be created for this field
 
     @Column(nullable = false)
     private String consent;
 
+    @Transient
+    private String operation;      // This variable is to track what operation is being performed on the registration form.
+
+    @Transient
+    private String loginEmail;      // This variable is just to keep track of what is the email of the entity which is performing the add patient operation by accessing registration form.
+
+
     public DemographicDetails() {
     }
 
-    public DemographicDetails(Integer patientID, String firstName, String lastName, @Email String email, String phoneNumber, String address, Integer age, String bloodGroup, String gender, Integer otp, String consent) {
+    public DemographicDetails(String patientID, String firstName, String lastName, @Email String email, String phoneNumber, String address, Integer age, String bloodGroup, String gender, String purpose, Integer otp, String consent, String operation, String loginEmail) {
         this.patientID = patientID;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -58,15 +67,26 @@ public class DemographicDetails {
         this.age = age;
         this.bloodGroup = bloodGroup;
         this.gender = gender;
+        this.purpose = purpose;
         this.otp = otp;
         this.consent = consent;
+        this.operation = operation;
+        this.loginEmail = loginEmail;
     }
 
-    public Integer getPatientID() {
+    public String getLoginEmail() {
+        return loginEmail;
+    }
+
+    public void setLoginEmail(String loginEmail) {
+        this.loginEmail = loginEmail;
+    }
+
+    public String getPatientID() {
         return patientID;
     }
 
-    public void setPatientID(Integer patientID) {
+    public void setPatientID(String patientID) {
         this.patientID = patientID;
     }
 
@@ -134,6 +154,14 @@ public class DemographicDetails {
         this.gender = gender;
     }
 
+    public String getPurpose() {
+        return purpose;
+    }
+
+    public void setPurpose(String purpose) {
+        this.purpose = purpose;
+    }
+
     public Integer getOtp() {
         return otp;
     }
@@ -148,5 +176,13 @@ public class DemographicDetails {
 
     public void setConsent(String consent) {
         this.consent = consent;
+    }
+
+    public String getOperation() {
+        return operation;
+    }
+
+    public void setOperation(String operation) {
+        this.operation = operation;
     }
 }

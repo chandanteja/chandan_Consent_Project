@@ -1,7 +1,7 @@
-
+<app-navbar-receptionist></app-navbar-receptionist>
     
-<div fxLayoutAlign="center left" fxFlexFill class="main-div">
-    <mat-card > 
+<div fxLayoutAlign="center left" fxFlexFill class="main-div" >
+    <mat-card style="margin-top: 1cm;"> 
         <form fxLayout="standard"  [formGroup]="registrationForm" (ngSubmit)="addUser()">   
             <div fxLayout="column"> 
                 <div fxLayoutGap="15px" >
@@ -50,7 +50,12 @@
                         <mat-label>Enter Bloodgroup</mat-label>
                         <input matInput pattern="(A|B|AB|O)[+-]"  formControlName="bloodGroup">
                     
-                    </mat-form-field>  
+                    </mat-form-field> 
+                    <mat-form-field appearance="fill" class="row-1">
+                        <mat-label>Purpose of Visit</mat-label>
+                        <input matInput  name="purpose"  formControlName="purpose">
+                    
+                    </mat-form-field> 
                 </div>
                 
                 <div  fxLayout="row">

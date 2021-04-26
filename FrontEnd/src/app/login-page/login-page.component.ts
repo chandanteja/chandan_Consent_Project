@@ -5,6 +5,7 @@ import { Validators } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { DataSharingService } from '../services/data-sharing.service';
 
 
 interface Role {
@@ -31,7 +32,7 @@ export class LoginPageComponent implements OnInit {
 
   // ROles we are making static for now but after the admin module is created then we will change it to dynamic
   // where the admin can add the roles.
-   selectedRole : string = '';
+ /* selectedRole : string = '';
   roles: Role[]=[{value: 'receptionist', viewValue: 'Receptionist'},
   {value: 'nurse', viewValue: 'Nurse'},
   {value: 'doctor', viewValue: 'Doctor'},
@@ -39,13 +40,13 @@ export class LoginPageComponent implements OnInit {
   {value: 'admin', viewValue: 'Admin'}
 
 ];
+*/
   
-  userName : string = '';
-  password : string = '';
-
+ 
   invalidLogin: boolean=false;
+  //loginEmail! : string;
 
-  constructor(private router: Router ,private authService:AuthService)
+  constructor(private router: Router ,private authService:AuthService, private dataSharing : DataSharingService)
   {
   //selectedRole = null;
   
@@ -66,9 +67,9 @@ initForm()
 {
   console.log("inside initform");
   this.formGroup = new FormGroup({
-      USERNAME: new FormControl('',[Validators.required]),
-      PASSWORD: new FormControl('',[Validators.required]),
-      ROLE: new FormControl('',[Validators.required]),
+      email: new FormControl('',[Validators.required]),
+      password: new FormControl('',[Validators.required]),
+     // ROLE: new FormControl('',[Validators.required]),
     })
 }
 
@@ -77,26 +78,33 @@ initForm()
 
 loginProcess(){
 
-  console.log("UserName: ",this.userName);
-  console.log("Password: ",this.password);
-  console.log("Role: ",this.selectedRole);
+  //console.log("Role: ",this.selectedRole);
 
+  
   
   if(this.formGroup.valid)
   {
+   // this.loginEmail = this.formGroup.value['email'];
+   this.dataSharing.setEmail("EmailID",this.formGroup.value['email']);
     this.authService.login(this.formGroup.value).subscribe(result=>{
-      if(result.success){
+      if(result['status']==200){
         console.log("came into loginProcess()",result);
-        alert(result.message);
+        console.log("Inside loginProcess(): username", this.formGroup.value['email']);
+        console.log("Inside loginProcess(): Password", this.formGroup.value['password']);
+
+        this.router.navigateByUrl('/receptionistPage');
+        //alert("Successful");
         
       }
       else{
         console.log("inside else of loginprocess")
-        alert(result.message);
+       alert("Invalid Credentials. Please Check Credentials.");
+      // This below style of routing refreshes the page after login is invalid.
+      this.router.navigateByUrl('/', {skipLocationChange: true}).then( ()=>this.router.navigate(['/login']) )
       }
     })
   }
-  this.router.navigateByUrl('/demographicForm');
+ 
 }
 
 }

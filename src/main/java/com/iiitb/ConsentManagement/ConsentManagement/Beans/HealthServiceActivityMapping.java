@@ -5,13 +5,13 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 
-@Entity
+//@Entity
 @Component
-@Table(name="health_service_activity_mapping")
+//@Table(name="health_service_activity_mapping")
 
 public class HealthServiceActivityMapping {
 
-    @Id
+  /*  @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer ID;
 
@@ -25,7 +25,7 @@ public class HealthServiceActivityMapping {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="roleID", referencedColumnName = "roleID")
-    private Roles roleID;
+    private Actor roleID;
 
     // These 2 columns in tables are needed bcz every health service will have different set of activities so, we can have that flexibility to skip some activities here.
 
@@ -41,7 +41,7 @@ public class HealthServiceActivityMapping {
     public HealthServiceActivityMapping() {
     }
 
-    public HealthServiceActivityMapping(Integer ID, HealthService healthServiceID, Activity activityID, Roles roleID, Activity prevActivity, Activity nextActivity) {
+    public HealthServiceActivityMapping(Integer ID, HealthService healthServiceID, Activity activityID, Actor roleID, Activity prevActivity, Activity nextActivity) {
         this.ID = ID;
         this.healthServiceID = healthServiceID;
         this.activityID = activityID;
@@ -74,11 +74,11 @@ public class HealthServiceActivityMapping {
         this.activityID = activityID;
     }
 
-    public Roles getRoleID() {
+    public Actor getRoleID() {
         return roleID;
     }
 
-    public void setRoleID(Roles roleID) {
+    public void setRoleID(Actor roleID) {
         this.roleID = roleID;
     }
 
@@ -97,4 +97,6 @@ public class HealthServiceActivityMapping {
     public void setNextActivity(Activity nextActivity) {
         this.nextActivity = nextActivity;
     }
+
+   */
 }

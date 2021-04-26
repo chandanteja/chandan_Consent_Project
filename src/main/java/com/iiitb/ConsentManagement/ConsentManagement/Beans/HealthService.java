@@ -3,6 +3,9 @@ package com.iiitb.ConsentManagement.ConsentManagement.Beans;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.List;
+
 
 @Entity
 @Component
@@ -10,33 +13,50 @@ import javax.persistence.*;
 public class HealthService {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer ID; // auto generated ID
-
-    @Column(nullable = false,unique = true)
-    private String healthServiceID;
+    private String healthServiceID; // auto generated ID
 
     @Column(nullable = false)
-    private String healthServiceName;
+    @Enumerated(EnumType.STRING)
+    private HealthServiceType healthServiceType;
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private ActivityType currentActivity;
 
+    @Column
+    @OneToMany
+    private List<Activity> activityList;
 
+    @Column(nullable = false)
+    private String startTime;
 
-    public HealthService(Integer ID, String healthServiceID, String healthServiceName) {
-        this.ID = ID;
-        this.healthServiceID = healthServiceID;
-        this.healthServiceName = healthServiceName;
-        }
+    @Column(nullable = false)
+    private String endTime;
+
+    @OneToOne  // here we r using one to one because at any point of time patient will have only one servic in running.
+    // So, when patient visits next time then we need to create a new service ID for same old patient.
+    private DemographicDetails demographicDetails;
+
 
     public HealthService() {
     }
 
-    public Integer getID() {
-        return ID;
+    public HealthService(String healthServiceID, HealthServiceType healthServiceType, ActivityType currentActivity, List<Activity> activityList, String startTime, String endTime, DemographicDetails demographicDetails) {
+        this.healthServiceID = healthServiceID;
+        this.healthServiceType = healthServiceType;
+        this.currentActivity = currentActivity;
+        this.activityList = activityList;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.demographicDetails = demographicDetails;
     }
 
-    public void setID(Integer ID) {
-        this.ID = ID;
+    public DemographicDetails getDemographicDetails() {
+        return demographicDetails;
+    }
+
+    public void setDemographicDetails(DemographicDetails demographicDetails) {
+        this.demographicDetails = demographicDetails;
     }
 
     public String getHealthServiceID() {
@@ -47,12 +67,43 @@ public class HealthService {
         this.healthServiceID = healthServiceID;
     }
 
-    public String getHealthServiceName() {
-        return healthServiceName;
+    public HealthServiceType getHealthServiceType() {
+        return healthServiceType;
     }
 
-    public void setHealthServiceName(String healthServiceName) {
-        this.healthServiceName = healthServiceName;
+    public void setHealthServiceType(HealthServiceType healthServiceType) {
+        this.healthServiceType = healthServiceType;
     }
 
+    public ActivityType getCurrentActivity() {
+        return currentActivity;
+    }
+
+    public void setCurrentActivity(ActivityType currentActivity) {
+        this.currentActivity = currentActivity;
+    }
+
+    public List<Activity> getActivityList() {
+        return activityList;
+    }
+
+    public void setActivityList(List<Activity> activityList) {
+        this.activityList = activityList;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
 }
