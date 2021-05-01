@@ -60,10 +60,14 @@ import javax.persistence.*;
         @Column
         private LocalDateTime endTime;
 
-      /*  @Column(nullable = false)
-        private List<Permission> allowedPerm;
+        // We maintain 4 times. Start and end times define the working hours and  login and logout  are the actual working hours
 
-       */
+        @Column
+        private LocalDateTime loginTime;
+
+        @Column
+        private LocalDateTime logoutTime;
+
 
         @Column
         private Integer status;
@@ -71,10 +75,18 @@ import javax.persistence.*;
         @Column
         private String password;
 
+        // Handle the OverTime case later.
+
+        /*  @Column(nullable = false)
+        private List<Permission> allowedPerm;
+
+       */
+
+
         public Actor() {
         }
 
-        public Actor(String actorID, String fullName, ROLE role, String emailID, String contact, LocalDateTime startTime, LocalDateTime endTime, Integer status, String password) {
+        public Actor(String actorID, String fullName, ROLE role, String emailID, String contact, LocalDateTime startTime, LocalDateTime endTime, LocalDateTime loginTime, LocalDateTime logoutTime, Integer status, String password) {
             this.actorID = actorID;
             this.fullName = fullName;
             this.role = role;
@@ -82,6 +94,8 @@ import javax.persistence.*;
             this.contact = contact;
             this.startTime = startTime;
             this.endTime = endTime;
+            this.loginTime = loginTime;
+            this.logoutTime = logoutTime;
             this.status = status;
             this.password = password;
         }
@@ -156,5 +170,21 @@ import javax.persistence.*;
 
         public void setEndTime(LocalDateTime endTime) {
             this.endTime = endTime;
+        }
+
+        public LocalDateTime getLoginTime() {
+            return loginTime;
+        }
+
+        public void setLoginTime(LocalDateTime loginTime) {
+            this.loginTime = loginTime;
+        }
+
+        public LocalDateTime getLogoutTime() {
+            return logoutTime;
+        }
+
+        public void setLogoutTime(LocalDateTime logoutTime) {
+            this.logoutTime = logoutTime;
         }
     }

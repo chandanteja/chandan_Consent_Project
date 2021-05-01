@@ -83,6 +83,7 @@ addUser()
   console.log("registration form values: ",this.registrationForm.value);
   // WHen add new partient is selected by receptionist then the operation is "CREATE" by default. So, we can hardcode here.
   // We will have different form for the update of existing patients.
+  
   this.registrationForm.addControl('operation',new FormControl('CREATE')); 
   this.registrationForm.addControl('loginEmail',new FormControl(this.loginEmail)); 
 
