@@ -1,4 +1,4 @@
-package com.iiitb.ConsentManagement.ConsentManagement.HelperClasses;
+package com.iiitb.consentmanagement1.receptionist.HelperClasses;
 
 import org.springframework.stereotype.Component;
 

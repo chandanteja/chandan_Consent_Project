@@ -1,4 +1,4 @@
-package com.iiitb.ConsentManagement.ConsentManagement.Services;
+package com.iiitb.consentmanagement1.receptionist.Services;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;

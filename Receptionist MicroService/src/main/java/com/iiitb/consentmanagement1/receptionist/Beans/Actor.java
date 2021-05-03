@@ -1,12 +1,11 @@
-package com.iiitb.ConsentManagement.ConsentManagement.Beans;
+package com.iiitb.consentmanagement1.receptionist.Beans;
 
 
 import org.springframework.stereotype.Component;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.*;
-import javax.persistence.*;
 
 
 /**

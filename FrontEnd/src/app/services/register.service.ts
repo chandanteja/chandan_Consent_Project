@@ -12,10 +12,12 @@ export class RegisterService {
 
   constructor(private httpClient : HttpClient) { }
 
-  register(demoDetails: any):Observable<any> {
+  register(demoDetails: any):Observable<any> 
+  {
    
     console.log("We are in register service- register() before gng to spring boot.");
     console.log("demoDetails inside register() are: ", demoDetails);
+    
     console.log("Login email (added separately) is: ",demoDetails['loginEmail']);
     
     // console.log("type is: ", typeof(demoDetails));
@@ -25,6 +27,8 @@ export class RegisterService {
     return this.httpClient.post(`${baseUrl}register`,demoDetails,{responseType : "text"});
   }
 
+  
+  /*
   validateOTP(OTP: number, EMAIL: string):Observable<any>
   {
     console.log("We are in register service - validateOTP() before gng to spring boot.");
@@ -34,5 +38,6 @@ export class RegisterService {
     return this.httpClient.post( `${baseUrl}validateOTP`,{otp: OTP,email: EMAIL});
 
   }
+  */
 
 }

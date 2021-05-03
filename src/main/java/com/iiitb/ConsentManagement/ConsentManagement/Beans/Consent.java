@@ -36,11 +36,11 @@ public class Consent {
     private LocalDateTime endTime;
 
     @Column(nullable = false)
-    private AccessLevel accessLevel;
+    private String accessLevel;
 
-    public Consent(String consentID, DemographicDetails demographicDetails, HealthService serviceID, ActivityType activityType, Actor actorID, LocalDateTime startTime, LocalDateTime endTime, AccessLevel accessLevel) {
+    public Consent(String consentID, DemographicDetails demographicDetails, HealthService serviceID, ActivityType activityType, Actor actorID, LocalDateTime startTime, LocalDateTime endTime, String accessLevel) {
         this.consentID = consentID;
-        this.demographicDetails = demographicDetails;
+        this.demographicDetails = demographicDetails; // store patient ID
         this.serviceID = serviceID;
         this.activityType = activityType;
         this.actorID = actorID;
@@ -117,10 +117,10 @@ public class Consent {
     }
 
     public AccessLevel getAccessLevel() {
-        return accessLevel;
+        return AccessLevel.valueOf(accessLevel);
     }
 
-    public void setAccessLevel(AccessLevel accessLevel) {
+    public void setAccessLevel(String accessLevel) {
         this.accessLevel = accessLevel;
     }
 }
