@@ -8,7 +8,9 @@ import java.util.*;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -36,6 +38,16 @@ public class ConsentManagementApplication {
 				registry.addMapping("/api/*").allowedOrigins("http://localhost:4200").allowedHeaders("*");
 			}
 		};
+	}
+
+	@Bean("ActorAssignementThreadPool")
+	public TaskExecutor getAsyncExecutor() {
+		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+		executor.setCorePoolSize(20);
+		executor.setMaxPoolSize(1000);
+		executor.setWaitForTasksToCompleteOnShutdown(true);
+		executor.setThreadNamePrefix("Async-");
+		return executor;
 	}
 
 }

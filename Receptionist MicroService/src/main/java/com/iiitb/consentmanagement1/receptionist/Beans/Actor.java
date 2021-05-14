@@ -12,25 +12,6 @@ import java.time.LocalTime;
  *  This class is used for receviving actor data from front end or access data from corresponding Repository
  */
 
-/*enum Permission {
-    CREATE,
-    UPDATE,
-    VIEW,
-    DELETE,
-    NONE        // To specify that no permissions are given to the role
-}
-
-/*class Permission
-{
-    public static final int CREATE = 0;
-    public static final int UPDATE = 1;
-    public static final int VIEW = 2;
-    public static final int DELETE = 3;
-    public static final int NONE = 4;
-
-}
-*/
-
 
     @Entity
     @Component
@@ -71,10 +52,11 @@ import java.time.LocalTime;
         private LocalTime logoutTime;
 
 
-        @Column
-        private Integer status;
+        @Column(nullable = false)
+        @Enumerated(EnumType.STRING)
+        private Status status;
 
-        @Column
+        @Column(nullable = false)
         private String password;
 
         // Handle the OverTime case later.
@@ -88,7 +70,7 @@ import java.time.LocalTime;
         public Actor() {
         }
 
-        public Actor(String actorID, String fullName, ROLE role, String emailID, String contact, LocalTime startTime, LocalTime endTime, LocalTime loginTime, LocalTime logoutTime, Integer status, String password) {
+        public Actor(String actorID, String fullName, ROLE role, String emailID, String contact, LocalTime startTime, LocalTime endTime, LocalTime loginTime, LocalTime logoutTime, Status status, String password) {
             this.actorID = actorID;
             this.fullName = fullName;
             this.role = role;
@@ -114,11 +96,11 @@ import java.time.LocalTime;
             return actorID;
         }
 
-        public Integer getStatus() {
+        public Status getStatus() {
             return status;
         }
 
-        public void setStatus(Integer status) {
+        public void setStatus(Status status) {
             this.status = status;
         }
 

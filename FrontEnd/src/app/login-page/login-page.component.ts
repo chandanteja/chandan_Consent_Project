@@ -91,7 +91,7 @@ loginProcess(){
         console.log("came into loginProcess()",result);
         console.log("Inside loginProcess(): username", this.formGroup.value['email']);
         console.log("Inside loginProcess(): Password", this.formGroup.value['password']);
-
+        console.log("Role is: ",result['entity']);
         this.router.navigateByUrl('/receptionistPage');
         //alert("Successful");
         

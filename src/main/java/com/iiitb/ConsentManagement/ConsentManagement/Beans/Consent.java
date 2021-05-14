@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 @Component
@@ -13,51 +14,59 @@ public class Consent {
     @Id
     private String consentID;
 
-    @ManyToOne  // Many consents can be given by one patient itself.
-    @JoinColumn(name = "patientID_FK",referencedColumnName = "patientID")
-    private DemographicDetails demographicDetails;
+    // We just need patient ID. We need just patient ID, we are creating an FK to patient ID of Demographic Details.
+//    @ManyToOne  // Many consents can be given by one patient itself.
+//    @JoinColumn(name = "patientID_FK",referencedColumnName = "patientID")
+//    private DemographicDetails demographicDetails;      // patient ID.
 
-    @OneToOne
-    private HealthService serviceID;
+    @Column(nullable = false)
+    private String patientID;       // We are not taking patient ID as Foreign key because if PID is taken as FK, then
+    // if we delete the patient then the history of consent objects created by him as part of different services will also be deleted.
+    // But as it is sensitive data, we need to maintain history of such consents created. So we are not using FK.
+
+    @Column(nullable = false)
+    private String healthServiceID;
 
     @Column(nullable = false)
     private ActivityType activityType;
 
+
+   @Column
+    private String actorID;
+
     @Column
-    private ROLE actorType;
+    private LocalTime startTime;
 
-    @OneToOne //doubtful. It shuld be OneToMany
-    private Actor actorID;
+    @Column
+    private LocalTime endTime;
 
-    @Column(nullable = false)
-    private LocalDateTime startTime;
+    @Column
+    @Enumerated(EnumType.STRING)
+    private ConsentType consentGivenForOperation;    // Creation, updation delete etc on the respective forms.
 
-    @Column(nullable = false)
-    private LocalDateTime endTime;
+    @Column
+    @Enumerated(EnumType.STRING)
+    private AccessLevel otherDataAccessLevel;
 
-    @Column(nullable = false)
-    private String accessLevel;
 
-    public Consent(String consentID, DemographicDetails demographicDetails, HealthService serviceID, ActivityType activityType, Actor actorID, LocalDateTime startTime, LocalDateTime endTime, String accessLevel) {
+    // Access level is needed if we are giving access to data on level of access basis.
+//    @Column(nullable = false)
+//    private String accessLevel;
+
+
+    public Consent(String consentID, String patientID, String healthServiceID, ActivityType activityType, String actorID, LocalTime startTime, LocalTime endTime, ConsentType consentGivenForOperation, AccessLevel otherDataAccessLevel) {
         this.consentID = consentID;
-        this.demographicDetails = demographicDetails; // store patient ID
-        this.serviceID = serviceID;
+        this.patientID = patientID;
+        this.healthServiceID = healthServiceID;
         this.activityType = activityType;
         this.actorID = actorID;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.accessLevel = accessLevel;
+        this.consentGivenForOperation = consentGivenForOperation;
+        this.otherDataAccessLevel = otherDataAccessLevel;
     }
 
     public Consent() {
-    }
-
-    public ROLE getActorType() {
-        return actorType;
-    }
-
-    public void setActorType(ROLE actorType) {
-        this.actorType = actorType;
     }
 
     public String getConsentID() {
@@ -68,20 +77,20 @@ public class Consent {
         this.consentID = consentID;
     }
 
-    public DemographicDetails getdemographicDetails() {
-        return demographicDetails;
+    public String getPatientID() {
+        return patientID;
     }
 
-    public void setdemographicDetails(DemographicDetails demographicDetails) {
-        this.demographicDetails = demographicDetails;
+    public void setPatientID(String patientID) {
+        this.patientID = patientID;
     }
 
-    public HealthService getServiceID() {
-        return serviceID;
+    public String getHealthServiceID() {
+        return healthServiceID;
     }
 
-    public void setServiceID(HealthService serviceID) {
-        this.serviceID = serviceID;
+    public void setHealthServiceID(String healthServiceID) {
+        this.healthServiceID = healthServiceID;
     }
 
     public ActivityType getActivityType() {
@@ -92,35 +101,43 @@ public class Consent {
         this.activityType = activityType;
     }
 
-    public Actor getActorID() {
+    public String getActorID() {
         return actorID;
     }
 
-    public void setActorID(Actor actorID) {
+    public void setActorID(String actorID) {
         this.actorID = actorID;
     }
 
-    public LocalDateTime getStartTime() {
+    public LocalTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
+    public void setStartTime(LocalTime startTime) {
         this.startTime = startTime;
     }
 
-    public LocalDateTime getEndTime() {
+    public LocalTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
+    public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
     }
 
-    public AccessLevel getAccessLevel() {
-        return AccessLevel.valueOf(accessLevel);
+    public ConsentType getConsentGivenForOperation() {
+        return consentGivenForOperation;
     }
 
-    public void setAccessLevel(String accessLevel) {
-        this.accessLevel = accessLevel;
+    public void setConsentGivenForOperation(ConsentType consentGivenForOperation) {
+        this.consentGivenForOperation = consentGivenForOperation;
+    }
+
+    public AccessLevel getOtherDataAccessLevel() {
+        return otherDataAccessLevel;
+    }
+
+    public void setOtherDataAccessLevel(AccessLevel otherDataAccessLevel) {
+        this.otherDataAccessLevel = otherDataAccessLevel;
     }
 }

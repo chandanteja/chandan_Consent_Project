@@ -2,6 +2,7 @@ package com.iiitb.consentmanagement1.receptionist.Controller;
 
 
 
+import com.iiitb.consentmanagement1.receptionist.Beans.ROLE;
 import com.iiitb.consentmanagement1.receptionist.HelperClasses.ActorLogin;
 import com.iiitb.consentmanagement1.receptionist.Services.ActorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import java.time.LocalTime;
 public class ActorLoginController {
 
     ActorService actorService;
+    private final ROLE ACTOR_ROLE = ROLE.ROLE_RECEPTIONIST;    // In this microservice we verify the actors which belong to this microservice role only.
 
     @Autowired
     public ActorLoginController(ActorService actorService)
@@ -32,7 +34,7 @@ public class ActorLoginController {
         System.out.println("Email: "+actorLogin.getEmail());
         System.out.println("Password: "+actorLogin.getPassword());
 
-        boolean loginResult =  actorService.actorAuthentication(actorLogin.getEmail(),actorLogin.getPassword());
+        boolean loginResult =  actorService.actorAuthentication(actorLogin.getEmail(),actorLogin.getPassword(),ACTOR_ROLE);
         String setLoginTime = "LOGIN_TIME_NOT_SET"; // time is not yet set
 
         if(loginResult == false)
@@ -50,7 +52,7 @@ public class ActorLoginController {
 
         System.out.println("Actor authenticated successfully and login time is set");
 
-        return Response.ok().build();
+        return Response.ok().entity(ACTOR_ROLE).build();
     }
 
 }

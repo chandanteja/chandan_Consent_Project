@@ -17,7 +17,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 public class ReceptionistApplication {
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         SpringApplication.run(ReceptionistApplication.class, args);
     }
 

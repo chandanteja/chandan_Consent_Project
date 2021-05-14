@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 
 /**
@@ -28,48 +29,37 @@ public class Activity {
     private ActivityType activityType;
 
 
-    @ManyToOne
-    @JoinColumn(name = "patientID_FK",referencedColumnName = "patientID")
-    private DemographicDetails demographicDetails;
+//    @ManyToOne
+//    @JoinColumn(name = "patientID_FK",referencedColumnName = "patientID")
+//    private DemographicDetails demographicDetails;  // This refers to which activity is mapped to which patient.
+
+    private String patientID; // Maintaining patientID as string because if we maintain PatientID as Foreign key to  Patient details (demographic details)
+    // Then if we delete a patient then his previous record of Activities will be deleted which is not correct.
 
 
-    @ManyToOne
-    @JoinColumn(name = "healthServiceID_FK",referencedColumnName = "healthServiceID")
-    private HealthService healthService;
+//    @ManyToOne
+//    @JoinColumn(name = "healthServiceID_FK",referencedColumnName = "healthServiceID")
+//    private HealthService healthService;
+
+    private String healthServiceID;
 
 // The start and end times need to be placed in different table as the same activity can have different times.
 
     @Column
-    private LocalDateTime startTime;
+    private LocalTime startTime;
 
     @Column
-    private LocalDateTime endTime;
+    private LocalTime endTime;
 
 
     public Activity() {
     }
 
-    public DemographicDetails getdemographicDetails() {
-        return demographicDetails;
-    }
-
-    public void setdemographicDetails(DemographicDetails demographicDetails) {
-        this.demographicDetails = demographicDetails;
-    }
-
-    public HealthService gethealthService() {
-        return healthService;
-    }
-
-    public void sethealthService(HealthService healthService) {
-        this.healthService = healthService;
-    }
-
-    public Activity(String activityID, ActivityType activityType, DemographicDetails demographicDetails, HealthService healthService, LocalDateTime startTime, LocalDateTime endTime) {
+    public Activity(String activityID, ActivityType activityType, String patientID, String healthServiceID, LocalTime startTime, LocalTime endTime) {
         this.activityID = activityID;
         this.activityType = activityType;
-        this.demographicDetails = demographicDetails;
-        this.healthService = healthService;
+        this.patientID = patientID;
+        this.healthServiceID = healthServiceID;
         this.startTime = startTime;
         this.endTime = endTime;
     }
@@ -90,35 +80,35 @@ public class Activity {
         this.activityType = activityType;
     }
 
-    public DemographicDetails getDemographicDetails() {
-        return demographicDetails;
+    public String getPatientID() {
+        return patientID;
     }
 
-    public void setDemographicDetails(DemographicDetails demographicDetails) {
-        this.demographicDetails = demographicDetails;
+    public void setPatientID(String patientID) {
+        this.patientID = patientID;
     }
 
-    public HealthService getHealthService() {
-        return healthService;
+    public String getHealthServiceID() {
+        return healthServiceID;
     }
 
-    public void setHealthService(HealthService healthService) {
-        this.healthService = healthService;
+    public void setHealthServiceID(String healthServiceID) {
+        this.healthServiceID = healthServiceID;
     }
 
-    public LocalDateTime getStartTime() {
+    public LocalTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
+    public void setStartTime(LocalTime startTime) {
         this.startTime = startTime;
     }
 
-    public LocalDateTime getEndTime() {
+    public LocalTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
+    public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
     }
 }

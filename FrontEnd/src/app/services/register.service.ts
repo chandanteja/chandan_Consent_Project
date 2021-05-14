@@ -27,7 +27,20 @@ export class RegisterService {
     return this.httpClient.post(`${baseUrl}register`,demoDetails,{responseType : "text"});
   }
 
-  
+  saveVital(vitalDetails: any): Observable<any> {
+
+    console.log("We are in register service- saveVital() before gng to spring boot.");
+    console.log("vitalDetails inside saveVital() are: ", vitalDetails);
+
+    console.log("Login email (added separately) is: ", vitalDetails['loginEmail']);
+    console.log("purpose (added separately) is: ", vitalDetails['purpose']);
+    // console.log("type is: ", typeof(demoDetails));
+    //console.log("type is: ", typeof(JSON.stringify(demoDetails)));
+    // console.log(this.httpClient.post(`${baseUrl}register`, demoDetails));
+
+    return this.httpClient.post(`${baseUrl}enterVital`, vitalDetails, {responseType: "text"});
+  }
+
   /*
   validateOTP(OTP: number, EMAIL: string):Observable<any>
   {

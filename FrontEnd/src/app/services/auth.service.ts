@@ -17,6 +17,8 @@ export class AuthService {
   login(credentials: any):Observable<any> {
     console.log("Inside AUthService: ",credentials.email)
     console.log("Inside AUthService: ",credentials.password)
+    // Here we need to loop by sending credentials to different actor microservices like send credentials
+    // to receptionist and then verify if fails then come back and send the credentials to nurse microservice and verify continue this till it succeeds.
     return this.http.post(`${baseUrl}actorlogin`,credentials)
   }
 }

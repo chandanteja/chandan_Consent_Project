@@ -22,12 +22,12 @@ public class ActorService {
         this.actorLoginRepo = actorLoginRepo;
     }
 
-    public boolean actorAuthentication(String email,String password)
+    public boolean actorAuthentication(String email,String password, ROLE actorRole)
     {
         System.out.println("[CLASS-METHOD] Inside ActorLoginService-actorAuthentication");
         List<Actor>  actor = null;
 
-        actor = actorLoginRepo.findByEmailIDAndPassword(email,password);
+        actor = actorLoginRepo.findByEmailIDAndPasswordAndRole(email,password,actorRole);
 
         if(actor.size()==0) {
             System.out.println("[IF-COND] Inside actor authentication service, Size is 0 ");
@@ -53,6 +53,17 @@ public class ActorService {
         if(actor.size()==0)
             return ROLE.ROLE_INVALID;
         return actor.get(0).getRole();
+
+    }
+
+    public LocalTime getActorStartTime(String email)
+    {
+        List<Actor> actor = null;
+        actor = actorLoginRepo.findByEmailID(email);        // emailid is unique.
+        if(actor.size()==0)
+            return LocalTime.MIN;   // Invalid localdatetime
+
+        return actor.get(0).getStartTime();
 
     }
 
@@ -107,4 +118,6 @@ public class ActorService {
         }
         return "SUCCESSFULLY_SET_LOGIN_TIME";
     }
+
+
 }

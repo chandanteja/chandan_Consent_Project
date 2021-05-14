@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 
@@ -13,7 +14,7 @@ import java.util.List;
 public class HealthService {
 
     @Id
-    private String healthServiceID; // auto generated ID
+    private String healthServiceID;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -21,42 +22,42 @@ public class HealthService {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private ActivityType currentActivity;
+    private ActivityType currentActivityType;
 
     @Column
     @OneToMany
     private List<Activity> activityList;
 
-    @Column(nullable = false)
-    private String startTime;
+    @Column
+    private LocalTime startTime;
 
-    @Column(nullable = false)
-    private String endTime;
+    @Column
+    private LocalTime endTime;
 
-    @OneToOne  // here we r using one to one because at any point of time patient will have only one servic in running.
-    // So, when patient visits next time then we need to create a new service ID for same old patient.
-    private DemographicDetails demographicDetails;
-
+    @Column
+    private String patientID;       // Maintaining patientID as string because if we maintain PatientID as Foreign key to  Patient details (demographic details)
+    // Then if we delete a patient then his previous record of health services will be deleted which is not correct.
 
     public HealthService() {
     }
 
-    public HealthService(String healthServiceID, HealthServiceType healthServiceType, ActivityType currentActivity, List<Activity> activityList, String startTime, String endTime, DemographicDetails demographicDetails) {
+
+    public HealthService(String healthServiceID, HealthServiceType healthServiceType, ActivityType currentActivityType, List<Activity> activityList, LocalTime startTime, LocalTime endTime, String patientID) {
         this.healthServiceID = healthServiceID;
         this.healthServiceType = healthServiceType;
-        this.currentActivity = currentActivity;
+        this.currentActivityType = currentActivityType;
         this.activityList = activityList;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.demographicDetails = demographicDetails;
+        this.patientID = patientID;
     }
 
-    public DemographicDetails getDemographicDetails() {
-        return demographicDetails;
+    public String getPatientID() {
+        return patientID;
     }
 
-    public void setDemographicDetails(DemographicDetails demographicDetails) {
-        this.demographicDetails = demographicDetails;
+    public void setPatientID(String patientID) {
+        this.patientID = patientID;
     }
 
     public String getHealthServiceID() {
@@ -75,12 +76,12 @@ public class HealthService {
         this.healthServiceType = healthServiceType;
     }
 
-    public ActivityType getCurrentActivity() {
-        return currentActivity;
+    public ActivityType getCurrentActivityType() {
+        return currentActivityType;
     }
 
-    public void setCurrentActivity(ActivityType currentActivity) {
-        this.currentActivity = currentActivity;
+    public void setCurrentActivityType(ActivityType currentActivityType) {
+        this.currentActivityType = currentActivityType;
     }
 
     public List<Activity> getActivityList() {
@@ -91,19 +92,19 @@ public class HealthService {
         this.activityList = activityList;
     }
 
-    public String getStartTime() {
+    public LocalTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(String startTime) {
+    public void setStartTime(LocalTime startTime) {
         this.startTime = startTime;
     }
 
-    public String getEndTime() {
+    public LocalTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(String endTime) {
+    public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
     }
 }
