@@ -8,7 +8,6 @@ import com.iiitb.ConsentManagement.ConsentManagement.Services.RulesService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.inject.Named;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 

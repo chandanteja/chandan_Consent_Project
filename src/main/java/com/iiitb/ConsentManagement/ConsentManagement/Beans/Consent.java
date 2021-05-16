@@ -28,6 +28,7 @@ public class Consent {
     private String healthServiceID;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private ActivityType activityType;
 
 

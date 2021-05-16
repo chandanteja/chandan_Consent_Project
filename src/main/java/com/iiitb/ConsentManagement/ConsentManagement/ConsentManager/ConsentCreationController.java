@@ -46,7 +46,7 @@ public class ConsentCreationController {
 
         activityTypeList = ServiceStages.map.get(healthService.getHealthServiceType());
 
-        consentObjectsList = consentService.createConsentObjects(patientID,healthService.getHealthServiceID(),actorID,activityTypeList,consentGivenForOpeatrion,accessLevel);
+        consentObjectsList = consentService.createConsentObjectsList(patientID,healthService.getHealthServiceID(),actorID,activityTypeList,consentGivenForOpeatrion,accessLevel);
 
 
 

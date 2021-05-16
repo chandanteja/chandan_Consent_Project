@@ -29,7 +29,7 @@ public class NurseAvailabilityController {
 
         Status actorStatus = Status.IDLE;
         ROLE actorRole = ROLE.ROLE_NURSE;
-
+        // Also check if nurse is logged in then only use that nurse for assignment
         String actorID = nurseAvailabilityService.getAvailableNurse(actorStatus,actorRole);
         System.out.println("[NurseAvailabilityController]: After returning from getAvailableNurses");
 

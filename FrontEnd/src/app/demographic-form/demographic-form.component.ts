@@ -129,25 +129,30 @@ addUser()
           alert("Unable to add patient details successfully");
         }
         */
-       if(result === "1")
+       if(result === "SUCCESS")
           {
-            console.log("Inside result===1");
+            console.log("Inside result---- SUCCESS");
             alert("Patient data added successfully");
           }
-          else if(result === "2")
+          else if(result === "ERROR_OCCURRED_IN_SAVING_DATA")
           {
-            console.log("Inside result==2");
+            console.log("Inside result==ERROR_OCCURRED_IN_SAVING_DATA");
             alert("Patient data not saved. Either Consent or OTP is missing. Try Saving again");
           }
-          else if( result === "3")
+          else if( result === "CONSENT_NOT_GIVEN")
           {
-            console.log("Inside reuslt===3");
+            console.log("Inside reuslt --- CONSENT_NOT_GIVEN");
             alert("Consent is not given. Give consent to proceed forward.");
           }
-          else if(result === "4")
+          else if(result === "INVALID_OTP")
           {
-            console.log("Inside result==4")
+            console.log("Inside result==INVALID_OTP")
             alert("Invalid OTP. Please try with new OTP.");
+          }
+          else if(result === "OUT_OF_OFFICE_HOURS")
+          {
+            console.log("Inside OUT_OF_OFFICE_HOURS");
+            alert("Out of Office hours. Not permitted to do this operation")
           }
 
       })
@@ -203,7 +208,7 @@ generateOTP()
 
           
           console.log("came into generateOTP()",result);
-          alert("OTP Sent to the given mail ID");
+          
           this.showTimer = true;
 
           this.interval = setInterval(() => {
@@ -213,6 +218,8 @@ generateOTP()
               this.timeLeft = 0;
             }
           },1000)
+
+          alert("OTP Sent to the given mail ID");
 
           console.log("after timer...",result);
           

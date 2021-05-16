@@ -51,17 +51,29 @@ public class Activity {
     @Column
     private LocalTime endTime;
 
+    @Column
+    private String actorID;
+
 
     public Activity() {
     }
 
-    public Activity(String activityID, ActivityType activityType, String patientID, String healthServiceID, LocalTime startTime, LocalTime endTime) {
+    public Activity(String activityID, ActivityType activityType, String patientID, String healthServiceID, LocalTime startTime, LocalTime endTime, String actorID) {
         this.activityID = activityID;
         this.activityType = activityType;
         this.patientID = patientID;
         this.healthServiceID = healthServiceID;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.actorID = actorID;
+    }
+
+    public String getActorID() {
+        return actorID;
+    }
+
+    public void setActorID(String actorID) {
+        this.actorID = actorID;
     }
 
     public String getActivityID() {

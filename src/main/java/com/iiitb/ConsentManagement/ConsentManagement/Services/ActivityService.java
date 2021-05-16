@@ -2,6 +2,7 @@ package com.iiitb.ConsentManagement.ConsentManagement.Services;
 
 import com.iiitb.ConsentManagement.ConsentManagement.Beans.Activity;
 import com.iiitb.ConsentManagement.ConsentManagement.Beans.ActivityType;
+import com.iiitb.ConsentManagement.ConsentManagement.Beans.HealthService;
 import com.iiitb.ConsentManagement.ConsentManagement.DAO.ActivityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -15,15 +16,16 @@ public class ActivityService {
 
     Activity activity;
     ActivityRepository activityRepository;
-
+    HealthServicesService healthServicesService;
     @Autowired
-    public ActivityService(Activity activity, ActivityRepository activityRepository)
+    public ActivityService(Activity activity, ActivityRepository activityRepository,HealthServicesService healthServicesService)
     {
         this.activity = activity;
         this.activityRepository = activityRepository;
+        this.healthServicesService = healthServicesService;
     }
 
-    public String createActivity(String patientID, String healthServiceID, ActivityType activityType)
+    public String createActivity(String patientID, String healthServiceID, ActivityType activityType, String actorID)
     {
         System.out.println("[ActivityService-createActivity()]: Came-here");
 
@@ -38,6 +40,7 @@ public class ActivityService {
         activity.setActivityType(activityType);
         activity.setStartTime(activityStartTime);
         activity.setEndTime(activityEndTime);
+        activity.setActorID(actorID);
 
 
         try
@@ -74,4 +77,43 @@ public class ActivityService {
 
         return activity.get(0);
     }
+
+    public Activity getActivityByPatientIDAndActivityTypeAndEndTime(String patientID,ActivityType activityType)
+    {
+        System.out.println("[ActivityService-getActivityByPatientIDAndActivityTypeAndEndTime()]: Came-here");
+
+        List<Activity> activity=null;
+
+        if(patientID != null)
+        {
+            activity = activityRepository.findByPatientIDAndActivityTypeAndEndTime(patientID,activityType,null);
+
+        }
+
+        if(activity.size() == 0)
+            return null;    // Activity doesn't exist.
+
+        return activity.get(0);
+    }
+
+    public Activity endActivity(String healthServiceID,ActivityType activityType, LocalTime endTime)
+    {
+            HealthService healthService = healthServicesService.getHealthServiceByID(healthServiceID);
+            List<Activity> activities = healthService.getActivityList();
+
+            int temp=0;
+            while(activities.size() != temp)
+            {
+
+                if(activities.get(temp).getActivityType().equals(activityType))
+                {
+                    activities.get(temp).setEndTime(endTime);
+                    break;
+                }
+                temp++;
+
+            }
+            return  activities.get(temp);
+    }
+
 }

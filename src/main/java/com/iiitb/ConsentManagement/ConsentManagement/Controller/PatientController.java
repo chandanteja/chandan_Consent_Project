@@ -4,9 +4,7 @@ import com.iiitb.ConsentManagement.ConsentManagement.ActivityRuleValidator.Activ
 import com.iiitb.ConsentManagement.ConsentManagement.Beans.*;
 //import com.iiitb.ConsentManagement.ConsentManagement.Services.ActorService;
 import com.iiitb.ConsentManagement.ConsentManagement.ConsentManager.ConsentCreationController;
-import com.iiitb.ConsentManagement.ConsentManagement.Services.ActorAssignmentService;
-import com.iiitb.ConsentManagement.ConsentManagement.Services.PatientRegistrationService;
-import com.iiitb.ConsentManagement.ConsentManagement.Services.RulesService;
+import com.iiitb.ConsentManagement.ConsentManagement.Services.*;
 import com.iiitb.ConsentManagement.ConsentManagement.StaticMappings.ServiceStages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -27,17 +25,21 @@ public class PatientController {
     private ActivityRuleValidator activityRuleValidator;
     private HealthServiceController healthServiceController;
     private ConsentCreationController consentCreationController;
-    private ActorAssignmentService actorAssignmentService;
+    private NurseAssignmentService nurseAssignmentService;
+    private HealthServicesService healthServicesService;
+    private ActivityService activityService;
+
     @Autowired
-    public PatientController(PatientRegistrationService patientRegistrationService,  RulesService rulesService, ActivityRuleValidator activityRuleValidatior, HealthServiceController healthServiceController,
-                             ConsentCreationController consentCreationController, ActorAssignmentService actorAssignmentService)
+    public PatientController(PatientRegistrationService patientRegistrationService, RulesService rulesService, ActivityRuleValidator activityRuleValidatior, HealthServiceController healthServiceController,
+                             ConsentCreationController consentCreationController, NurseAssignmentService nurseAssignmentService, ActivityService activityService)
     {
         this.patientRegistrationService = patientRegistrationService;
         this.rulesService = rulesService;
         this.activityRuleValidator = activityRuleValidatior;
         this.healthServiceController = healthServiceController;
         this.consentCreationController = consentCreationController;
-        this.actorAssignmentService = actorAssignmentService;
+        this.nurseAssignmentService = nurseAssignmentService;
+        this.activityService = activityService;
     }
 
 
@@ -55,11 +57,12 @@ public class PatientController {
        LocalTime operationTime = LocalTime.now();
        final String TABLENAME = "demographic_details" ;
        String  patientID = null ;
-       String healthServiceCreation;
+       String healthServiceID;
        ActivityType currentActivityType;
        DemographicDetails savePatientData = null;
        List<ActivityType> activityTypesList = null;
        List<Consent> consentObjectsList = null;
+       String assignedActorID = null;
 
 
 
@@ -88,11 +91,11 @@ public class PatientController {
            System.out.println("Patient ID from the object after patient is saved: "+ savePatientData.getPatientID());
 
 
-            // We will get some value into healthservicecreation variable. So no nullpointer exception
-           healthServiceCreation = healthServiceController.createHealthService(patientID,details.getPurpose(),currentActivityType);
-           System.out.println("[patientController-addPatient()]: Health service creation is successful/not: "+healthServiceCreation);
+            // We will get some value into healthServiceID variable. So no nullpointer exception
+           healthServiceID = healthServiceController.createHealthService(patientID,details.getPurpose(),currentActivityType,actorID);
+           System.out.println("[patientController-addPatient()]: Health service creation is successful/not: "+healthServiceID);
 
-           if(!healthServiceCreation.equals("SUCCESS"))
+           if( healthServiceID.matches("^FAILED.*") )
                 return "FAILED_TO_CREATE_HEALTH_SERVICE";
 
 
@@ -110,6 +113,7 @@ public class PatientController {
            {
                 System.out.println(activityType );
            }
+
            System.out.println("===============================");
 
            consentObjectsList = consentCreationController.consentCreationBasic(patientID,ConsentType.CREATE,actorID);
@@ -123,26 +127,46 @@ public class PatientController {
            }
            System.out.println("===============================");
 
+           int currentActivityIndex = activityTypesList.indexOf(currentActivityType);
+           int activityTypesListSize = activityTypesList.size();
+           ActivityType nextActivityType = null;
+           int nextActivityIndex;
 
-           try {
-               System.out.println("Sleeping for ---------- 5sec");
-               Thread.sleep(5000);
-
-           }
-           catch(InterruptedException e)
+           if((currentActivityIndex == activityTypesListSize-1))
            {
-              System.out.println("Interrupted Exception occurred, Sleep is over");
+               System.out.println("Inside size-index case");
+               nextActivityIndex = -1;      // this occurs when there is no next activity or current activity is the last activity.
+
+           }
+           else
+           {
+               // As this is registration activity, we need to assign the actor for next activity. So for this we are adding +1.
+               nextActivityIndex = currentActivityIndex+1;
+              // nextActivityType = activityTypesList.get(nextActivityIndex);
            }
 
-           System.out.println("Sending request to async method");
-           actorAssignmentService.assignNurseToPatient(patientID, consentObjectsList.get(0));
-           System.out.println("after Sending request to async method");
+           System.out.println("Sending request to async method- assignNurseToPatient()");
+           if(nextActivityIndex!=-1)    // assign actor
+               nurseAssignmentService.assignNurseToPatient(patientID,consentObjectsList.get(nextActivityIndex));
+               //assignedActorID = actorAssignmentService.assignNurseToPatient(patientID,consentObjectsList.get(nextActivityIndex));
+
+           else
+               return "NO_NEXT_ACTIVITY"; // If we fail to assign actor we return back saying failed to assign actor.
+
+           // End of REGISTRATION Activity
+           Activity activity = activityService.endActivity(healthServiceID,currentActivityType,LocalTime.now());
+
+           if(activity == null)
+                return "FAILED_TO_END_ACTIVITY";
+
+           System.out.println("ACTIVITY ENDED time is: "+ activity.getEndTime());
 
        }
        else
        {
            return ruleValidationResult; // Means ruleValidatonResult is not success.
        }
+
 
 
        System.out.println("Sending success to receptionist.");

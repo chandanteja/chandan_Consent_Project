@@ -30,7 +30,7 @@ public class HealthServicesService {
 
 
 
-    public String healthSerivceCreation(String patientID, HealthServiceType healthServiceType, ActivityType currentActivityType, LocalTime healthServiceStartTime)
+    public String healthSerivceCreation(String patientID, HealthServiceType healthServiceType, ActivityType currentActivityType, LocalTime healthServiceStartTime,String actorID)
     {
         System.out.println("[HealthServicesService-healthServiceCreation]: Came-here");
 
@@ -45,9 +45,9 @@ public class HealthServicesService {
         healthService.setCurrentActivityType(currentActivityType);
         healthService.setStartTime(healthServiceStartTime);
 
-      //  healthService.setActivityList(healthServiceActivityType);
 
-        activityID = activityService.createActivity(patientID,healthServiceID,currentActivityType);
+        // This is the activity for registration
+        activityID = activityService.createActivity(patientID,healthServiceID,currentActivityType,actorID);
 
         if(activityID.equals("FAILED_TO_CREATE_ACTIVITY"))      // error in creating in activity
                 return "FAILED_TO_GET_ACTIVITYID";  // Unable to create ACTIVITY
@@ -75,5 +75,71 @@ public class HealthServicesService {
     }
 
 
+    public HealthService updateCurrentHealthServiceActivityType(HealthService healthService,ActivityType currentActivity )
+    {
+        System.out.println("[HealthServicesService] Inside updateCurrentHealthServiceActivity() method");
+
+        healthService.setCurrentActivityType(currentActivity);  // setting activity current type
+
+        try{
+            healthService = healthServiceRepository.save(healthService);
+        }
+        catch (Exception e)
+        {
+            System.out.println("[Exception] Exception occured when trying to save the updated healthService. Inside updateCurrentHealthServiceActivity");
+            return null;    // return null if exception occurs
+        }
+
+        // update and save is pending
+        return healthService; // as there will be only one healthservice for a patient running at any point of time
+    }
+
+    public HealthService  getCurrentHealthService(String patientID)
+    {
+        System.out.println("[HealthServicesService] Inside getCurrentHealthService() method");
+        List<HealthService> healthService;
+
+        // We will fetch patient health services which has not null start time and end time as null;
+        healthService = healthServiceRepository.findByPatientIDAndStartTimeIsNotAndEndTime(patientID,null,null);
+
+        System.out.println("After returning from findByPatientIDAndStartTimeIsNotAndEndTime() method");
+        if(healthService.size() == 0)
+        {
+            System.out.println("Inside healthService size == 0 IF condition");
+            return null;
+        }
+        return healthService.get(0);
+    }
+
+    public HealthService saveHealthService(HealthService healthService)
+    {
+        System.out.println("[HealthServicesService] Inside saveHealthService() method");
+        try{
+            healthService = healthServiceRepository.save(healthService);
+        }
+        catch (Exception e)
+        {
+            System.out.println("[Exception] Exception occured when trying to save the updated healthService. Inside saveHealthService");
+            return null;    // return null if exception occurs
+        }
+
+        return healthService;
+    }
+
+    public HealthService getHealthServiceByID(String healthServiceID)
+    {
+        System.out.println("[HealthServicesService]: Inside getHealthServiceByID()");
+        List<HealthService> healthServices = null;
+        // STart time is not null and end time shuld be null. So, we send both as null
+        healthServices = healthServiceRepository.findByHealthServiceIDAndStartTimeIsNotAndEndTime(healthServiceID,null,null);
+
+        System.out.println("After returning from findByHealthServiceIDAndStartTimeIsNotAndEndTime() method");
+        if(healthServices.size() == 0)
+        {
+            System.out.println("Inside healthServices size == 0 IF condition");
+            return null;
+        }
+        return healthServices.get(0);   // bcz we will get only one health service when searched by ID.
+    }
 
 }

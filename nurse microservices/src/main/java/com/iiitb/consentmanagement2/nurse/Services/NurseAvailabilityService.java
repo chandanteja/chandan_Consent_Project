@@ -5,6 +5,7 @@ import com.iiitb.consentmanagement2.nurse.Beans.ROLE;
 import com.iiitb.consentmanagement2.nurse.Beans.Status;
 import com.iiitb.consentmanagement2.nurse.DAO.ActorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.task.TaskExecutor;
 
 import javax.inject.Named;
 import java.util.List;
@@ -18,7 +19,9 @@ public class NurseAvailabilityService {
     @Autowired
     public NurseAvailabilityService(ActorRepository actorRepository)
     {
-        this.actorRepository = actorRepository;
+
+                this.actorRepository = actorRepository;
+
     }
 
     public String getAvailableNurse(Status actorStatus, ROLE actorRole)
@@ -33,10 +36,16 @@ public class NurseAvailabilityService {
         if(actor.size()==0)
                 return "FAILED_TO_FIND_NURSE";
 
-        int result = randomNumber.nextInt((actor.size()) - 1) + 0 ;
+        int result = randomNumber.nextInt((actor.size()) ) + 0 ;
 
         availableActor = actor.get(result);
         System.out.println("[NurseAvailabilityService]: After finding an actor randomly by choosing random number. Returning now from nurseservice");
+
+        availableActor.setStatus(Status.BUSY);
+        actorRepository.save(availableActor);
+        System.out.println("Changed the status of Nurse to Busy from IDLE");
+
+        // Need to change the status of the actor selected to BUSY.
 
         return availableActor.getActorID();
     }

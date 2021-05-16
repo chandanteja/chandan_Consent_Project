@@ -15,13 +15,13 @@ import java.time.LocalTime;
 @RestController
 @RequestMapping(path="/api")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-public class ActorLoginController {
+public class ActorController {
 
     ActorService actorService;
     private final ROLE ACTOR_ROLE = ROLE.ROLE_RECEPTIONIST;    // In this microservice we verify the actors which belong to this microservice role only.
 
     @Autowired
-    public ActorLoginController(ActorService actorService)
+    public ActorController(ActorService actorService)
     {
         this.actorService = actorService;
     }
@@ -30,7 +30,7 @@ public class ActorLoginController {
     public @ResponseBody
     Response authenticateActor(@RequestBody ActorLogin actorLogin)
     {
-        System.out.println("[CLASS] Inside ActorLoginController: authenticateActor() ");
+        System.out.println("[CLASS] Inside ActorController: authenticateActor() ");
         System.out.println("Email: "+actorLogin.getEmail());
         System.out.println("Password: "+actorLogin.getPassword());
 
@@ -54,5 +54,7 @@ public class ActorLoginController {
 
         return Response.ok().entity(ACTOR_ROLE).build();
     }
+
+
 
 }

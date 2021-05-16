@@ -32,7 +32,7 @@ public class HealthServiceController {
 
 
 
-    public String createHealthService(String patientID, String purpose, ActivityType currentActivityType)
+    public String createHealthService(String patientID, String purpose, ActivityType currentActivityType,String actorID)
     {
         System.out.println("[HealthserviceController-createHealthService]: Came-Here");
         String healthServiceCreationResult;
@@ -52,17 +52,17 @@ public class HealthServiceController {
 
         healthServiceStartTime = LocalTime.now();   // start of healthService time.
 
-        healthServiceCreationResult = healthServicesService.healthSerivceCreation(patientID,healthServiceType,currentActivityType,healthServiceStartTime);
+        healthServiceCreationResult = healthServicesService.healthSerivceCreation(patientID,healthServiceType,currentActivityType,healthServiceStartTime,actorID);
 
         System.out.println("Creation of health service is successful with healthService ID: "+ healthServiceCreationResult);
 
         if(healthServiceCreationResult.matches("^FAILED.*"))
         {
             System.out.println("[HealthServiceController-createHealthService()]: Inside IF creation of health service creation return value");
-            return healthServiceCreationResult;
+            return healthServiceCreationResult; // if failed send same thing back
         }
 
-       return "SUCCESS";
+       return healthServiceCreationResult;
     }
 
 

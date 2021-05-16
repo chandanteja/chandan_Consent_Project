@@ -42,22 +42,11 @@ public class PatientRegistrationController {
     public @ResponseBody
     String addPatientDemographicData(@RequestBody final DemographicDetails details)
     {
-        System.out.println("Inside PatientRegistrationController patient firstname: "+details.getFirstName());
-        System.out.println("Inside PatientRegistrationController patient Lastname: "+details.getLastName());
-        System.out.println("Inside PatientRegistrationController patient Email: "+details.getEmail());
-        System.out.println("Inside PatientRegistrationController patient Phone: "+details.getPhoneNumber());
-        /*System.out.println("Inside PatientRegistrationController patient Age: "+details.getAge());
-        System.out.println("Inside PatientRegistrationController patient Address: "+details.getAddress());
-        System.out.println("Inside PatientRegistrationController patient Bloodgroup: "+details.getBloodGroup());
-        System.out.println("Inside PatientRegistrationController patient Gender: "+details.getGender());
-
-        System.out.println("===================================================================");
-        System.out.println("Inside PatientRegistrationController OTP: "+details.getOtp());
-        System.out.println("Inside PatientRegistrationController COnsent: "+details.getConsent() );
-
-
-        System.out.println("Inside PatientRegistrationController loginEmail of actor is "+ details.getLoginEmail());
-        */
+//        System.out.println("Inside PatientRegistrationController patient firstname: "+details.getFirstName());
+//        System.out.println("Inside PatientRegistrationController patient Lastname: "+details.getLastName());
+//        System.out.println("Inside PatientRegistrationController patient Email: "+details.getEmail());
+//        System.out.println("Inside PatientRegistrationController patient Phone: "+details.getPhoneNumber());
+//
 
         System.out.println("[PatientRegistrationController-addPatientDemoDetails()]: Inside receptionist microservice patiernt registration controller- add patient details.");
 
@@ -67,8 +56,6 @@ public class PatientRegistrationController {
         String otpValid;
         String actorID;
         ROLE actorType;
-
-
 
         operationTime = LocalTime.now();        // time at which this operation is performed i.e addPatientDetails is called from frontend
         endTime = actorService.getActorEndTime(details.getLoginEmail());
@@ -84,18 +71,18 @@ public class PatientRegistrationController {
         {
             System.out.println("Sorry! You can't perform the operation at this time. Your login time is greater than endtime");
 
-           System.exit(1); // Need change the return value to string for validation in other part of codes.
-            //return 5;
-            // return saying the operation is being performed off duty hours. so reject the operation
+            return "OUT_OF_OFFICE_HOURS";
+
         }
 
-        System.out.println("Came here---------1");
+    System.out.println("Came here---------1");
     actorType = actorService.getActorRole(details.getLoginEmail());
     actorID = actorService.getActorID(details.getLoginEmail());
 
     otpValid = validationOfOTP(details);
-    if(!otpValid.equals("1"))
-        return otpValid;
+
+    if(!otpValid.equals("SUCCESS"))
+         return otpValid;
 
     System.out.println("After otp validation is done. Now calling rest template");
     RestTemplate restTemplate    = new RestTemplate();
@@ -106,7 +93,7 @@ public class PatientRegistrationController {
     System.out.println("Response is: "+ responseEntity.getBody().toString());
     System.out.println("Patient ID returned is:" + responseEntity.getBody().toString());
 
-    return String.valueOf(1);   // everything is valid and the user can go ahead.
+    return "SUCCESS";   // everything is valid and the user can go ahead.
     }
 
 
@@ -161,8 +148,10 @@ public String validationOfOTP(DemographicDetails details)
     if(otpValid == 1 && details.getConsent().equals("true")) //if otp is valid and consent is given then save data and return success
     {
         System.out.println("Sending '1' back to caller");
-        return String.valueOf(1);
-       /* result = patientRegistrationService.addPatientDemographicDetails(details);
+        return "SUCCESS";
+
+
+        /* result = patientRegistrationService.addPatientDemographicDetails(details);
         if(result== true)
             return String.valueOf(1); //1 -> successfully saved
         else if(result==false)
@@ -171,13 +160,13 @@ public String validationOfOTP(DemographicDetails details)
 
     }
     else if(otpValid == 1 && details.getConsent().equals("false"))
-        return String.valueOf(3);  //consent is not given;
+        return "CONSENT_NOT_GIVEN";  //consent is not given;
 
     else if(otpValid == 0 && details.getConsent().equals("true"))
-        return String.valueOf(4);  //Inavalid OTP
+        return "INVALID_OTP";  //Inavalid OTP
 
 
-    return String.valueOf(2); //Failed to save data but consent and otp are valid;
+        return "ERROR_OCCURRED_IN_SAVING_DATA"; //Failed to save data but consent and otp are valid;
 }
 
 
