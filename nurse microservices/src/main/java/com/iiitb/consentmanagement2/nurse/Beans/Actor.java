@@ -5,6 +5,12 @@ import org.springframework.stereotype.Component;
 import javax.persistence.*;
 import java.time.LocalTime;
 
+
+// We can have one more variable/column for maintaining departments of doctors.
+// Department for nurses and receptionists will be general one like Administration for receptionists and Staff for nurses
+// For doctors this will be useful in identifying their particular departments.
+
+
 @Entity
 @Component
 @Table(name = "actor_table")

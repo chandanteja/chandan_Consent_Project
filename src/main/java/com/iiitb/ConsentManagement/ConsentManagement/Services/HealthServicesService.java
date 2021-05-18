@@ -16,9 +16,10 @@ import java.util.UUID;
 @Named
 public class HealthServicesService {
 
+    HealthServiceRepository healthServiceRepository;
+
     HealthService healthService;
     ActivityService activityService;
-    HealthServiceRepository healthServiceRepository;
 
     @Autowired
     public HealthServicesService(HealthService healthService, ActivityService activityService, HealthServiceRepository healthServiceRepository)
@@ -100,9 +101,9 @@ public class HealthServicesService {
         List<HealthService> healthService;
 
         // We will fetch patient health services which has not null start time and end time as null;
-        healthService = healthServiceRepository.findByPatientIDAndStartTimeIsNotAndEndTime(patientID,null,null);
+        healthService = healthServiceRepository.findByPatientIDAndStartTimeIsNotNullAndEndTime(patientID,null);
 
-        System.out.println("After returning from findByPatientIDAndStartTimeIsNotAndEndTime() method");
+        System.out.println("After returning from findByPatientIDAndStartTimeIsNotNullAndEndTime() method");
         if(healthService.size() == 0)
         {
             System.out.println("Inside healthService size == 0 IF condition");
@@ -131,7 +132,7 @@ public class HealthServicesService {
         System.out.println("[HealthServicesService]: Inside getHealthServiceByID()");
         List<HealthService> healthServices = null;
         // STart time is not null and end time shuld be null. So, we send both as null
-        healthServices = healthServiceRepository.findByHealthServiceIDAndStartTimeIsNotAndEndTime(healthServiceID,null,null);
+        healthServices = healthServiceRepository.findByHealthServiceIDAndStartTimeIsNotNullAndEndTime(healthServiceID,null);
 
         System.out.println("After returning from findByHealthServiceIDAndStartTimeIsNotAndEndTime() method");
         if(healthServices.size() == 0)

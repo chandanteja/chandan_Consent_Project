@@ -67,6 +67,7 @@ public class NurseAssignmentService {
 
         ExecutorService executorService = Executors.newCachedThreadPool();
         String nurseID = null;
+
         while(true)
         {
             System.out.println("Inside While(true) to get nurse ID");
@@ -104,6 +105,7 @@ public class NurseAssignmentService {
         //After getting available nurse ID, it means nurse activity has started, so we shuld update the healthservice current activity withactivity related to nurse.
 
         // Update current activity in healthservice for given patient
+        System.out.println("getting current health services of a patient");
         HealthService healthService = healthServicesService.getCurrentHealthService(patientID);
 
 
@@ -123,9 +125,12 @@ public class NurseAssignmentService {
         // Activity Creation
         String activityID = activityService.createActivity(patientID,updatedHealthService.getHealthServiceID(),nextActivityType,nurseID);
 
+        System.out.println("Activity ID after creation is: "+ activityID);
+
         if(activityID.equals("FAILED_TO_CREATE_ACTIVITY"))      // error in creating in activity
              return "FAILED_TO_GET_ACTIVITYID";  // Unable to create ACTIVITY
 
+        System.out.println("Before getActivityByID() call");
         Activity activity = activityService.getActivityByID(activityID);
 
         if(activity == null)

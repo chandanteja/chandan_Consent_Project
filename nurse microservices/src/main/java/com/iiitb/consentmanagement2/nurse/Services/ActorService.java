@@ -2,6 +2,7 @@ package com.iiitb.consentmanagement2.nurse.Services;
 
 import com.iiitb.consentmanagement2.nurse.Beans.Actor;
 import com.iiitb.consentmanagement2.nurse.Beans.ROLE;
+import com.iiitb.consentmanagement2.nurse.Beans.Status;
 import com.iiitb.consentmanagement2.nurse.DAO.ActorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -97,4 +98,28 @@ public class ActorService {
         }
         return "SUCCESSFULLY_SET_LOGIN_TIME";
     }
+
+    public LocalTime getActorStartTime(String email)
+    {
+        List<Actor> actor = null;
+        actor = actorLoginRepo.findByEmailID(email);        // emailid is unique.
+        if(actor.size()==0)
+            return LocalTime.MIN;   // Invalid localdatetime
+
+        return actor.get(0).getStartTime();
+
+    }
+
+    public Status getActorStatus(String email)
+    {
+        List<Actor> actor = null;
+        actor = actorLoginRepo.findByEmailID(email);        // emailid is unique.
+
+        if(actor.size()==0)
+            return null;   // Invalid localdatetime
+
+        return actor.get(0).getStatus();
+
+    }
+
 }

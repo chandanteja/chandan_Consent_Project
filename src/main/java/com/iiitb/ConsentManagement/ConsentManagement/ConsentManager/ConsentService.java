@@ -51,8 +51,9 @@ public class ConsentService {
 
             if( activityType.equals(ActivityType.REGISTRATION) )      // Registration activity-type
             {
+                /// Receptionist will have access level of advanced to update details of patient.
                 // We are doing this as Registration activity will have Update consent to update the details of patient when patient wants to update his details
-                consent = new Consent(consentID, patientID, healthServiceID, activityType, null, null, null, ConsentType.UPDATE, accessLevel);
+                consent = new Consent(consentID, patientID, healthServiceID, activityType, null, null, null, ConsentType.UPDATE, AccessLevel.ADVANCED);
                 consentObjectList.add(consent);
             }
             else if( activityType.equals(ActivityType.PHARMACY_VISIT) ) // If  activity is pharmacy visit
@@ -147,5 +148,21 @@ public class ConsentService {
 //        return "SUCCESS";
 //    }
 
+    public Consent getConsent(String patientID, String actorID,ConsentType consentForOperation, LocalTime endTime,LocalTime startTime)
+    {
+        System.out.println("[ConsentService]: Inside getConsent()");
+        List<Consent> consentObject = null;
+
+        //Same patient can give same actor consent on same operation but start time and endtime will differentiate in such cases.
+
+        consentObject = consentRepository.findByPatientIDAndActorIDAndConsentGivenForOperationAndEndTimeAndStartTimeIsNotNull(patientID,actorID,consentForOperation,endTime);
+
+        if(consentObject.size()==0)
+        {
+            System.out.println("Inside if consenobject size == 0");
+            return null;
+        }
+        return consentObject.get(0);
+    }
 
 }

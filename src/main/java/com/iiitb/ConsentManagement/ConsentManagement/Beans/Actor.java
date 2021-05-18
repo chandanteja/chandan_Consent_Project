@@ -13,6 +13,9 @@ import javax.persistence.*;
  *  This class is used for receviving actor data from front end or access data from corresponding Repository
  */
 
+// We can have one more variable/column for maintaining departments of doctors.
+    // Department for nurses and receptionists will be general one like Administration for receptionists and Staff for nurses
+    // For doctors this will be useful in identifying their particular departments.
 
     @Entity
     @Component

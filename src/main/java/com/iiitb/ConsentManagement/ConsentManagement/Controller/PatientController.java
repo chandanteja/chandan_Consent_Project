@@ -31,7 +31,7 @@ public class PatientController {
 
     @Autowired
     public PatientController(PatientRegistrationService patientRegistrationService, RulesService rulesService, ActivityRuleValidator activityRuleValidatior, HealthServiceController healthServiceController,
-                             ConsentCreationController consentCreationController, NurseAssignmentService nurseAssignmentService, ActivityService activityService)
+                             ConsentCreationController consentCreationController, NurseAssignmentService nurseAssignmentService, ActivityService activityService, HealthServicesService healthServicesService)
     {
         this.patientRegistrationService = patientRegistrationService;
         this.rulesService = rulesService;
@@ -40,6 +40,7 @@ public class PatientController {
         this.consentCreationController = consentCreationController;
         this.nurseAssignmentService = nurseAssignmentService;
         this.activityService = activityService;
+        this.healthServicesService = healthServicesService;
     }
 
 
@@ -54,7 +55,7 @@ public class PatientController {
        System.out.println("Actor Role: "+ actorRole);
        System.out.println("Patient name: "+ details.getFirstName());
 
-       LocalTime operationTime = LocalTime.now();
+
        final String TABLENAME = "demographic_details" ;
        String  patientID = null ;
        String healthServiceID;
@@ -62,12 +63,12 @@ public class PatientController {
        DemographicDetails savePatientData = null;
        List<ActivityType> activityTypesList = null;
        List<Consent> consentObjectsList = null;
-       String assignedActorID = null;
+      // String assignedActorID = null;
 
 
 
         // Activity RUles Validation
-       String ruleValidationResult = activityRuleValidator.validateRegistrationActivityRule(details.getConsent(),details.getOperation(), operationTime,details.getPurpose(),TABLENAME,actorRole);
+       String ruleValidationResult = activityRuleValidator.validateRegistrationActivityRule(details.getConsent(),details.getOperation(),details.getPurpose(),TABLENAME,actorRole);
        System.out.println("Result of rule validation: "+ruleValidationResult);
 
 
@@ -154,7 +155,13 @@ public class PatientController {
                return "NO_NEXT_ACTIVITY"; // If we fail to assign actor we return back saying failed to assign actor.
 
            // End of REGISTRATION Activity
-           Activity activity = activityService.endActivity(healthServiceID,currentActivityType,LocalTime.now());
+           System.out.println("Before ending the current activity. Fetching health service");
+           HealthService healthService = healthServicesService.getCurrentHealthService(patientID);
+
+           if(healthService == null)
+                return "FAILED_TO_GET_HEALTH_SERVICE";
+
+           Activity activity = activityService.endActivity(healthService,currentActivityType,LocalTime.now());
 
            if(activity == null)
                 return "FAILED_TO_END_ACTIVITY";

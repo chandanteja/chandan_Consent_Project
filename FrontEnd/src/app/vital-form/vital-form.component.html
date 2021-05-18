@@ -3,45 +3,62 @@
 <div fxLayoutAlign="center left" fxFlexFill class="main-div">
   <mat-card style="margin-top: 1cm;">
     <form fxLayout="standard" [formGroup]="vitalForm" (ngSubmit)="addVitals()">
+      
       <div fxLayout="column">
-        <div fxLayoutGap="15px">
 
-          <div>
-            <mat-toolbar color="primary" style="width: 11.05cm; margin-bottom: 0.5cm;">Enter Vital Parameters
-            </mat-toolbar>
-          </div>
+        <div>
+          <mat-toolbar color="primary" style="width: 11.05cm; margin-bottom: 0.5cm;">Vital Parameters
+          </mat-toolbar>
+        </div>
+
+        <div fxLayoutGap="15px" >
+          <mat-form-field appearance="fill" class="row-0">
+            <mat-label>Patient's Name</mat-label>
+            <input matInput name="patientName" formControlName="patientName">
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="row-0">
+            <mat-label>Patient ID</mat-label>
+            <input matInput name="patientID" formControlName="patientID">
+
+          </mat-form-field>
+
+        </div>
+
+        <div fxLayoutGap="15px">
+          
           <mat-form-field appearance="fill" class="row-1">
             <mat-label>Enter Age</mat-label>
-            <input matInput name="age" formControlName="Age">
+            <input matInput name="age" formControlName="age">
           </mat-form-field>
           <mat-form-field appearance="fill" class="row-1">
             <mat-label>Enter Height</mat-label>
-            <input matInput name="height" formControlName="Height">
+            <input matInput name="height" formControlName="height">
 
           </mat-form-field>
         </div>
+
         <div fxLayoutGap="15px">
           <mat-form-field appearance="fill">
             <mat-label>Enter Weight</mat-label>
-            <input matInput name="weight" formControlName="Weight">
+            <input matInput name="weight" formControlName="weight">
 
           </mat-form-field>
           <mat-form-field appearance="fill">
             <mat-label>Enter Heart Rate</mat-label>
-            <input matInput name="heartrate" formControlName="HeartRate">
+            <input matInput name="heartRate" formControlName="heartRate">
 
           </mat-form-field>
         </div>
         <div fxLayoutGap="15px">
           <mat-form-field appearance="fill">
             <mat-label>Enter Blood Pressure</mat-label>
-            <input matInput name="bloodpressure" formControlName="BloodPressure">
+            <input matInput name="bloodPressure" formControlName="bloodPressure">
 
           </mat-form-field>
 
           <mat-form-field appearance="fill">
             <mat-label>Enter SpO2</mat-label>
-            <input matInput name="spo2" formControlName="SpO2">
+            <input matInput name="spO2" formControlName="spO2">
 
           </mat-form-field>
         </div>
@@ -49,18 +66,18 @@
         <div fxLayoutGap="15px">
           <mat-form-field appearance="fill">
             <mat-label>Enter Respiratory Rate</mat-label>
-            <input matInput name="resrate" formControlName="ResRate">
+            <input matInput name="resRate" formControlName="resRate">
 
           </mat-form-field>
           <mat-form-field appearance="fill" class="row-1">
             <mat-label>Enter Body Temperature</mat-label>
-            <input matInput name="temp" formControlName="Temperature">
+            <input matInput name="temperature" formControlName="temperature">
 
           </mat-form-field>
         </div>
 
 
-        <button class="btn btn-outline-primary" type="submit" style="width: fit-content;">Enter Vital Parameters</button>
+        <button class="btn btn-outline-primary" type="submit" style="width: fit-content;">Save Data</button>
       </div>
 
     </form>

@@ -7,6 +7,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { ReceptionistComponent } from './receptionist/receptionist.component';
 import { NurseComponent } from './nurse/nurse.component';
 import { VitalFormComponent } from './vital-form/vital-form.component';
+import { CheckpatientNurseComponent } from './checkpatient-nurse/checkpatient-nurse.component';
 
 const routes: Routes = [
   {path:'',component:HomePageComponent},
@@ -15,7 +16,7 @@ const routes: Routes = [
   {path:'receptionistPage',component:ReceptionistComponent},
   {path:'nursePage',component:NurseComponent},
   {path:'vitalsForm',component:VitalFormComponent},
-  
+  {path:'checkPatient',component:CheckpatientNurseComponent},
   
   
 

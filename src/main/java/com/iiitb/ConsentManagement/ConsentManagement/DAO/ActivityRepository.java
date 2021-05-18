@@ -12,5 +12,5 @@ public interface ActivityRepository extends JpaRepository<Activity,String> {
     List<Activity> findByActivityID(String activityID);
     List<Activity> findByHealthServiceIDAndEndTime(String healthServiceID, LocalTime endTime);
     List<Activity> findByPatientIDAndActivityTypeAndEndTime(String patientID, ActivityType activityType, LocalTime endtime);
-
+    List<Activity> findByActorIDAndStartTimeIsNotNullAndEndTime(String actorID, LocalTime endTime);
 }

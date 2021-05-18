@@ -25,7 +25,7 @@ public class HealthService {
     private ActivityType currentActivityType;
 
     @Column
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Activity> activityList;
 
     @Column

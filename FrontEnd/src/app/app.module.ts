@@ -32,6 +32,7 @@ import { NavbarReceptionistComponent } from './navbar-receptionist/navbar-recept
 import { NurseComponent } from './nurse/nurse.component';
 import { NavbarNurseComponent } from './navbar-nurse/navbar-nurse.component';
 import { VitalFormComponent } from './vital-form/vital-form.component';
+import { CheckpatientNurseComponent } from './checkpatient-nurse/checkpatient-nurse.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { VitalFormComponent } from './vital-form/vital-form.component';
     NurseComponent,
     NavbarNurseComponent,
     VitalFormComponent,
+    CheckpatientNurseComponent,
 
   ],
   imports: [

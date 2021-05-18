@@ -64,7 +64,7 @@ public class PatientRegistrationController {
 
         System.out.println("Came here- time is: "+ operationTime);
         System.out.println("Came here- endtime is: "+ endTime);
-        System.out.println("Came here- logintime is: "+ operationTime);
+        System.out.println("Came here- logintime is: "+ loginTime);
         System.out.println("Came here- starttime is: "+ startTime);
 
         if( !(operationTime.isAfter(loginTime) && operationTime.isBefore(endTime) && loginTime.isAfter(startTime)) )
@@ -85,15 +85,18 @@ public class PatientRegistrationController {
          return otpValid;
 
     System.out.println("After otp validation is done. Now calling rest template");
+
     RestTemplate restTemplate    = new RestTemplate();
     String uri = UriComponentsBuilder.fromUriString("http://localhost:9092/api/addpatient/").queryParam("actorID",actorID).queryParam("actorRole",actorType).build().toString();
 
     System.out.println("Before calling rest controller");
     ResponseEntity<String>  responseEntity =  restTemplate.postForEntity(uri,details,String.class);
+
     System.out.println("Response is: "+ responseEntity.getBody().toString());
     System.out.println("Patient ID returned is:" + responseEntity.getBody().toString());
 
-    return "SUCCESS";   // everything is valid and the user can go ahead.
+
+    return responseEntity.getBody().toString();   // everything is valid and the user can go ahead.
     }
 
 

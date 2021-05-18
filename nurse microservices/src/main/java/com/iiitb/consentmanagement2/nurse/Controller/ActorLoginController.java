@@ -22,6 +22,7 @@ public class ActorLoginController {
         this.actorService = actorService;
     }
 
+
     @PostMapping(path = "/actorlogin", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     Response authenticateActor(@RequestBody ActorLogin actorLogin) {

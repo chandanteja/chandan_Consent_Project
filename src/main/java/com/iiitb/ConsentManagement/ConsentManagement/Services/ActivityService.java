@@ -15,14 +15,16 @@ import java.util.UUID;
 public class ActivityService {
 
     Activity activity;
+
     ActivityRepository activityRepository;
-    HealthServicesService healthServicesService;
+   // HealthServicesService healthServicesService;
+
     @Autowired
-    public ActivityService(Activity activity, ActivityRepository activityRepository,HealthServicesService healthServicesService)
+    public ActivityService(Activity activity, ActivityRepository activityRepository)//,HealthServicesService healthServicesService)
     {
         this.activity = activity;
         this.activityRepository = activityRepository;
-        this.healthServicesService = healthServicesService;
+     //   this.healthServicesService = healthServicesService;
     }
 
     public String createActivity(String patientID, String healthServiceID, ActivityType activityType, String actorID)
@@ -72,9 +74,10 @@ public class ActivityService {
 
         }
 
-        if(activity.size() == 0)
-                return null;    // Activity doesn't exist.
-
+        if(activity.size() == 0) {
+            System.out.println("Inside size ==0");
+            return null;    // Activity doesn't exist.
+        }
         return activity.get(0);
     }
 
@@ -96,9 +99,9 @@ public class ActivityService {
         return activity.get(0);
     }
 
-    public Activity endActivity(String healthServiceID,ActivityType activityType, LocalTime endTime)
+    public Activity endActivity(HealthService healthService,ActivityType activityType, LocalTime endTime)
     {
-            HealthService healthService = healthServicesService.getHealthServiceByID(healthServiceID);
+
             List<Activity> activities = healthService.getActivityList();
 
             int temp=0;
@@ -114,6 +117,21 @@ public class ActivityService {
 
             }
             return  activities.get(temp);
+    }
+
+    public String getPatientIDFromActorID(String actorID)
+    {
+        List<Activity> patientID = null;
+        patientID = activityRepository.findByActorIDAndStartTimeIsNotNullAndEndTime(actorID,null);
+
+            if(patientID.size()==0)
+            {
+                System.out.println("Inside patientID.size == 0");
+                return "FAILED_TO_FETCH_ACTIVITY";
+            }
+
+            return patientID.get(0).getPatientID();
+
     }
 
 }
