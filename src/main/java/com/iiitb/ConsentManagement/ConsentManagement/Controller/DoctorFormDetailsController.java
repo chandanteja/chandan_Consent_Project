@@ -60,7 +60,7 @@ public class DoctorFormDetailsController {
         if(ruleValidationResult.equals("SUCCESS"))
         {
             doctorFormDataID = UUID.randomUUID().toString();
-            currentActivityType = ActivityType.VITAL_PARAMETERS;
+            currentActivityType = ActivityType.DOCTOR_CHECKUP;
 
             doctorFormDetails.setDoctorFormID(doctorFormDataID);
 
@@ -68,14 +68,14 @@ public class DoctorFormDetailsController {
 
             if(doctorFormDetailsSaveData == null)
             {
-                System.out.println("Failed to save vital params data");
+                System.out.println("Failed to save  doctor observations data");
                 return "FAILED_TO_SAVE_DOCTOR_FORM_DATA";
             }
 
 
-            System.out.println("Patient ID from the object after vital param data is saved: "+ doctorFormDetailsSaveData.getPatientID());
+            System.out.println("Patient ID from the object after doctor form data is saved: "+ doctorFormDetailsSaveData.getPatientID());
 
-            Activity activityObject = activityService.getActivityByActorIDAndTypeAndEndTimeAndPatientID(doctorID,currentActivityType,null,patientID);
+            Activity activityObject = activityService.getActivityByActorIDAndTypeAndEndTimeNullAndPatientID(doctorID,currentActivityType,patientID);
 
             activityObject.setEndTime(LocalTime.now());     // setting the end time of activity. it means the activity is ended
 
@@ -83,7 +83,7 @@ public class DoctorFormDetailsController {
 
             if(activityObject == null)
             {
-                System.out.println("Failed to end  activity of nurse");
+                System.out.println("Failed to end  activity of doctor");
                 return "FAILED_TO_SAVE_ACTIVITY_OBJECT";
             }
 
@@ -100,7 +100,12 @@ public class DoctorFormDetailsController {
 
         }
 
+        else{
+            System.out.println("Failed to validate Activity rules for doctor");
+            return ruleValidationResult;
+        }
 
-        return "SUCCESS";
+
+        return ruleValidationResult;
     }
 }

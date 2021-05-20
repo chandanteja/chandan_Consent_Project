@@ -13,6 +13,6 @@ public interface ActivityRepository extends JpaRepository<Activity,String> {
     List<Activity> findByHealthServiceIDAndEndTime(String healthServiceID, LocalTime endTime);
     List<Activity> findByPatientIDAndActivityTypeAndEndTime(String patientID, ActivityType activityType, LocalTime endtime);
     List<Activity> findByActorIDAndStartTimeIsNotNullAndEndTime(String actorID, LocalTime endTime);
-    List<Activity> findByActorIDAndActivityTypeAndStartTimeIsNotNullAndEndTimeAndPatientID(String actorID,ActivityType activityType,LocalTime endTime,String patientID);
+    List<Activity> findByActorIDAndActivityTypeAndStartTimeIsNotNullAndEndTimeIsNullAndPatientID(String actorID,ActivityType activityType,String patientID);
 
 }

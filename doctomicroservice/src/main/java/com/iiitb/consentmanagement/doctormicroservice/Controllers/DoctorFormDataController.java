@@ -42,7 +42,13 @@ public class DoctorFormDataController {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.postForEntity(uri,doctorFormDetails,String.class);
 
-        return "SUCCESS";
+        if(response == null) {
+
+            System.out.println("Failed to save doctor form data");
+            return "FAILED_TO_SAVE_DOCTOR_DATA";
+
+        }
+        return response.getBody().toString();
     }
 
 }

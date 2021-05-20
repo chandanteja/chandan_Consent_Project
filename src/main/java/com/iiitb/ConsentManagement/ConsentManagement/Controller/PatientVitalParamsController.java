@@ -92,7 +92,7 @@ public class PatientVitalParamsController {
 
             System.out.println("Patient ID from the object after vital param data is saved: "+ vitalParamsSaveData.getPatientID());
 
-            Activity activityObject = activityService.getActivityByActorIDAndTypeAndEndTimeAndPatientID(actorID,currentActivityType,null,patientID);
+            Activity activityObject = activityService.getActivityByActorIDAndTypeAndEndTimeNullAndPatientID(actorID,currentActivityType,patientID);
 
             activityObject.setEndTime(LocalTime.now());     // setting the end time of activity. it means the activity is ended
 

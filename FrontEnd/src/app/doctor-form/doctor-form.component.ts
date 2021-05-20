@@ -72,6 +72,17 @@ export class DoctorFormComponent implements OnInit {
         this.doctorFormServic.saveDoctorForm(this.doctorForm.value).subscribe(result => {
 
           console.log("Inside saveDoctorData of docform result is: ", result);
+          if(result === "SUCCESS")
+          {
+            console.log("Inside result---- SUCCESS");
+              alert("Doctor observations data saved successfully");
+          }
+            
+          else
+            {
+              console.log("Inside result---- FAILED_TO_SAVE_DOCTOR_DATA");
+              alert("Failed to save doctor observations.");
+            }
 
         })
     }

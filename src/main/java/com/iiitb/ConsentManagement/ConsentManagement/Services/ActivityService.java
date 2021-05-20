@@ -143,21 +143,23 @@ public class ActivityService {
 
     }
 
-    public Activity getActivityByActorIDAndTypeAndEndTimeAndPatientID(String actorID, ActivityType activityType ,LocalTime endTime,String patientID)
+    public Activity getActivityByActorIDAndTypeAndEndTimeNullAndPatientID(String actorID, ActivityType activityType ,String patientID)
     {
-        System.out.println("[ActivityService-getActivityByActorIDAndTypeAndEndTime()]: Came-here");
+        System.out.println("[ActivityService-getActivityByActorIDAndTypeAndEndTimeAndPatientID()]: Came-here");
 
         List<Activity> activity=null;
 
         if(actorID != null)
         {
-            activity = activityRepository.findByActorIDAndActivityTypeAndStartTimeIsNotNullAndEndTimeAndPatientID(actorID,activityType,null,patientID);
-
+            activity = activityRepository.findByActorIDAndActivityTypeAndStartTimeIsNotNullAndEndTimeIsNullAndPatientID(actorID,activityType,patientID);
+            System.out.println("After fetching activity");
         }
 
-        if(activity.size() == 0)
-            return null;    // Activity doesn't exist.
+        if(activity.size() == 0) {
 
+            System.out.println("activity.size == 0. So returning null");
+            return null;    // Activity doesn't exist.
+        }
         return activity.get(0);
     }
 
