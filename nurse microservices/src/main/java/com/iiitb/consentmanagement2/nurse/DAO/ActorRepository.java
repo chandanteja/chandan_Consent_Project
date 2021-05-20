@@ -16,4 +16,6 @@ public interface ActorRepository extends JpaRepository<Actor, Integer> {
     List<Actor> findByEmailID(String email);
 
     List<Actor> findByStatusAndRole(Status status,ROLE actorRole );
+
+    List<Actor> findByActorID(String actorID);
 }

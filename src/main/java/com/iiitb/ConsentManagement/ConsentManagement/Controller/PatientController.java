@@ -130,7 +130,7 @@ public class PatientController {
 
            int currentActivityIndex = activityTypesList.indexOf(currentActivityType);
            int activityTypesListSize = activityTypesList.size();
-           ActivityType nextActivityType = null;
+         //  ActivityType nextActivityType = null;
            int nextActivityIndex;
 
            if((currentActivityIndex == activityTypesListSize-1))
@@ -154,7 +154,7 @@ public class PatientController {
            else
                return "NO_NEXT_ACTIVITY"; // If we fail to assign actor we return back saying failed to assign actor.
 
-           // End of REGISTRATION Activity
+           // End of REGISTRATION Activity. No revocation of consent is needed as the consent is verified from registration form.
            System.out.println("Before ending the current activity. Fetching health service");
            HealthService healthService = healthServicesService.getCurrentHealthService(patientID);
 

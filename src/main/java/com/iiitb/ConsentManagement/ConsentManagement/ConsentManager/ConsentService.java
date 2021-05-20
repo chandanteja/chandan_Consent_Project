@@ -92,8 +92,10 @@ public class ConsentService {
         // save the consent obj.
         // This method is called when an Actor is assigned to patient.
 
+        System.out.println("Inside updateCOnsent() of consent service ");
         if(consent == null)
         {
+            System.out.println("Inside consent == null");
             return consent;
         }
 
@@ -101,10 +103,12 @@ public class ConsentService {
         consent.setActorID(actorID);
         consent.setStartTime(startTime);
 
+        System.out.println("After setting required values");
 
         try
         {
             consent = consentRepository.save(consent);
+            System.out.println("After updating and saving consent obj");
         }
         catch(Exception e)
         {
@@ -120,6 +124,7 @@ public class ConsentService {
         // take current time at which this method is called
         // change the end time
         // save the object
+        System.out.println("Inside revokeconsent() of consent service ");
         if(consent == null)
         {
             return "FAILED_TO_REVOKE_CONSENT";
@@ -148,7 +153,7 @@ public class ConsentService {
 //        return "SUCCESS";
 //    }
 
-    public Consent getConsent(String patientID, String actorID,ConsentType consentForOperation, LocalTime endTime,LocalTime startTime)
+    public Consent getConsent(String patientID, String actorID,ConsentType consentForOperation, LocalTime endTime)
     {
         System.out.println("[ConsentService]: Inside getConsent()");
         List<Consent> consentObject = null;
@@ -156,6 +161,29 @@ public class ConsentService {
         //Same patient can give same actor consent on same operation but start time and endtime will differentiate in such cases.
 
         consentObject = consentRepository.findByPatientIDAndActorIDAndConsentGivenForOperationAndEndTimeAndStartTimeIsNotNull(patientID,actorID,consentForOperation,endTime);
+
+        if(consentObject.size()==0)
+        {
+            System.out.println("Inside if consenobject size == 0");
+            return null;
+        }
+        return consentObject.get(0);
+    }
+
+    public Consent getConsentNotStarted(String patientID,ActivityType activityType ,ConsentType consentForOperation)
+    {
+        // This method is for getting consent object which is not yet started.
+
+        System.out.println("[ConsentService]: Inside getConsentNotStarted()");
+        System.out.println("Patient ID is: "+ patientID);
+        System.out.println("ActivityType is: "+activityType);
+        System.out.println("Consent for operation is: "+consentForOperation);
+
+        List<Consent> consentObject = null;
+
+        //Same patient can give same actor consent on same operation but start time and endtime will differentiate in such cases.
+
+        consentObject = consentRepository.findByPatientIDAndActivityTypeAndConsentGivenForOperationAndStartTimeIsNullAndEndTimeIsNull(patientID,activityType,consentForOperation);
 
         if(consentObject.size()==0)
         {

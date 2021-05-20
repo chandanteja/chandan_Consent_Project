@@ -33,16 +33,16 @@ export class CheckpatientNurseComponent implements OnInit {
 
     console.log("Inside checkpatient-nurse component Email is: ",this.loginEmail);
 
-    //this.deleteEmailStatus = this.dataSharing.deleteEmail("EmailID");
+    this.deleteEmailStatus = this.dataSharing.deleteEmail("EmailID");
     
-    // if(this.deleteEmailStatus ==  1)
-    // {
-    //     console.log("Email deleted successfully in the data sharing object");
-    //     this.form.addControl('loginEmail',new FormControl(this.loginEmail)); 
+    if(this.deleteEmailStatus ==  1)
+    {
+        console.log("Email deleted successfully in the data sharing object");
+        this.form.addControl('loginEmail',new FormControl(this.loginEmail)); 
 
-    // }
-    // else
-    //     console.log("EMail not deleted in datasharing object");
+    }
+    else
+        console.log("EMail not deleted in datasharing object");
 
         console.log("Before calling datasaving")
         this.patientNurseAssignment.getPatientDataForNurse(this.form.value).subscribe(result=>{

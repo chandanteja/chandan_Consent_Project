@@ -1,0 +1,29 @@
+<app-navbar-nurse></app-navbar-nurse>
+
+<div fxLayoutAlign="center left" fxFlexFill class="main-div" >
+    <mat-card style="margin-top: 1cm;" fxFlex="30"> 
+        <mat-toolbar color="primary" style="margin-bottom: 0.5cm;">Assign Doctor to Patient</mat-toolbar>
+             <form  fxLayoutAlign="stretch" fxLayout="column" [formGroup]="form" (ngSubmit)="assignDoctor()">
+                <div fxLayout="column"> 
+                    
+                        <mat-form-field appearance="fill">
+                            <mat-label>Patient's ID</mat-label>
+                            <input matInput name="patientID" formControlName="patientID">
+                        </mat-form-field>
+                   
+                        <mat-form-field appearance="fill">
+                            <mat-label>Select Department</mat-label>
+                            <mat-select  name="doctor-assignment" formControlName="department">
+                                <mat-option *ngFor="let dept of departments" [value]="dept.value">
+                                    {{dept.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <button mat-raised-button type="submit" >Assign Doctor</button>
+                
+                </div>
+            </form>
+    </mat-card>
+
+</div>

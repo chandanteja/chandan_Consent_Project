@@ -1,0 +1,48 @@
+<app-doctor-navbar></app-doctor-navbar>
+<div fxLayoutAlign="center left" fxFlexFill class="main-div">
+    <mat-card style="margin-top: 1cm;">
+      
+        <form fxLayout="standard" [formGroup]="doctorForm" (ngSubmit)="saveDoctorData()">
+        
+            <div fxLayout="column">
+    
+                <div>
+                    <mat-toolbar color="primary" style="width: 11.05cm; margin-bottom: 0.5cm;">Doctor Observations
+                    </mat-toolbar>
+                </div>
+    
+                <div fxLayoutGap="15px" >
+                    <mat-form-field appearance="fill" class="row-0">
+                    <mat-label>Patient's Name</mat-label>
+                    <input matInput name="patientName" formControlName="patientName">
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="row-0">
+                    <mat-label>Patient ID</mat-label>
+                    <input matInput name="patientID" formControlName="patientID">
+        
+                    </mat-form-field>
+        
+                </div>
+    
+            
+                <div fxLayoutGap="15px">
+                    
+                    <mat-form-field appearance="fill" class="row-1">
+                        <mat-label>Enter Body Temperature</mat-label>
+                        <input matInput name="temperature" formControlName="temperature">
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="row-1">
+                        <mat-label>Enter Blood Pressure</mat-label>
+                        <input matInput name="bloodPressure" formControlName="bloodPressure">
+        
+                    </mat-form-field>
+                </div>          
+    
+    
+            <button class="btn btn-outline-primary" type="submit" style="width: fit-content;">Save Data</button>
+            </div>
+  
+      </form>
+    </mat-card>
+  
+  </div>

@@ -42,12 +42,50 @@ public class NurseAvailabilityService {
         System.out.println("[NurseAvailabilityService]: After finding an actor randomly by choosing random number. Returning now from nurseservice");
 
         availableActor.setStatus(Status.BUSY);
-        actorRepository.save(availableActor);
+
+        try
+        {
+            actorRepository.save(availableActor);
+        }
+        catch(Exception e)
+        {
+            System.out.println("[Exception]: Exception occurred when saving nurse data");
+            return "FAILED_TO_UPDATE_NURSE_STATUS";
+        }
         System.out.println("Changed the status of Nurse to Busy from IDLE");
 
         // Need to change the status of the actor selected to BUSY.
 
         return availableActor.getActorID();
+    }
+
+    public String setNurseStatus(String actorID, Status status)
+    {
+        System.out.println("[NurseAvailabilityService]: Inside setNurseStatus()");
+        List<Actor> actor = null;
+
+        actor = actorRepository.findByActorID(actorID);
+
+        if(actor.size() == 0)
+        {
+            System.out.println("Inside actor size ==0 in set status");
+            return "FAILED_TO_CHANGE_STATUS";
+        }
+
+        Actor temp;
+         actor.get(0).setStatus(status);
+
+        System.out.println("After setting actor status : "+ actor.get(0).getStatus());
+
+        try{
+            temp = actorRepository.save(actor.get(0));
+        }
+        catch(Exception e)
+        {
+            System.out.println("[Exception]: Exception occurred while setting actor status and aving");
+            return "FAILED_TO_CHANGE_STATUS";
+        }
+        return  "SUCCESS";
     }
 
 

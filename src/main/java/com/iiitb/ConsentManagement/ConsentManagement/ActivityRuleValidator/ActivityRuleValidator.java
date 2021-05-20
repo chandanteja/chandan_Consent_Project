@@ -82,10 +82,8 @@ public class ActivityRuleValidator {
 
         System.out.println("[ActivityRuleValidator]:OperationPermitted is: "+ operationPermitted);
 
-        Consent consent = consentService.getConsent(patientID,actorID,consentForOperation,endTime,null);
-        System.out.println("After fetching consent object.");
-       System.out.println("Actor ID is: "+consent.getActorID());
-       System.out.println("PatientID is: "+consent.getPatientID());
+        Consent consent = consentService.getConsent(patientID,actorID,consentForOperation,endTime);
+
 
        if(consent == null)
         {
@@ -93,6 +91,9 @@ public class ActivityRuleValidator {
             return "CONSENT_DONT_EXIST";
         }
 
+        System.out.println("After fetching consent object.");
+        System.out.println("Actor ID is: "+consent.getActorID());
+        System.out.println("PatientID is: "+consent.getPatientID());
         System.out.println("Before operationpermitted check");
 
         if(operationPermitted.toString().equals("INVALID"))

@@ -30,11 +30,11 @@ export class VitalFormComponent implements OnInit {
     this.loginEmail = this.dataSharing.getEmail("EmailID");
     console.log("Inside [vital form commponent-adduser()] Email is: ", this.loginEmail);
 
-    // this.deleteEmailStatus = this.dataSharing.deleteEmail("EmailID");
-    // if (this.deleteEmailStatus == 1)
-    //   console.log("Email deleted successfully in the data sharing object");
-    // else
-    //   console.log("EMail not deleted in datasharing object");
+    this.deleteEmailStatus = this.dataSharing.deleteEmail("EmailID");
+    if (this.deleteEmailStatus == 1)
+      console.log("Email deleted successfully in the data sharing object");
+    else
+      console.log("EMail not deleted in datasharing object");
 
   }
 

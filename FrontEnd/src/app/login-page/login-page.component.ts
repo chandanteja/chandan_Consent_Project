@@ -13,12 +13,7 @@ interface Role {
   viewValue: string;
 }
 
-//interface Credentials
-//{
- // userNameFrontEnd: string,
- // passWordFrontEnd: string,
- // roleFrontEnd: Role
-// }
+
 
 @Component({
   selector: 'app-login-page',
@@ -27,20 +22,22 @@ interface Role {
 })
 export class LoginPageComponent implements OnInit {
 
-  //credentials: Credentials={userNameFrontEnd:'',passWordFrontEnd:'',roleFrontEnd:{value:'',viewValue:''}};
-
+  
 
   // ROles we are making static for now but after the admin module is created then we will change it to dynamic
   // where the admin can add the roles.
- /* selectedRole : string = '';
-  roles: Role[]=[{value: 'receptionist', viewValue: 'Receptionist'},
-  {value: 'nurse', viewValue: 'Nurse'},
-  {value: 'doctor', viewValue: 'Doctor'},
-  {value: 'patient', viewValue: 'Patient'},
-  {value: 'admin', viewValue: 'Admin'}
+ 
+ 
+  /* selectedRole : string = ''; */
+
+  roles: Role[]=[{value: 'Receptionist', viewValue: 'Receptionist'},
+  {value: 'Nurse', viewValue: 'Nurse'},
+  {value: 'Doctor', viewValue: 'Doctor'},
+  {value: 'Patient', viewValue: 'Patient'},
+  {value: 'Admin', viewValue: 'Admin'}
 
 ];
-*/
+
   
  
   invalidLogin: boolean=false;
@@ -69,7 +66,7 @@ initForm()
   this.formGroup = new FormGroup({
       email: new FormControl('',[Validators.required]),
       password: new FormControl('',[Validators.required]),
-     // ROLE: new FormControl('',[Validators.required]),
+      role: new FormControl('',[Validators.required]),
     })
 }
 
@@ -86,14 +83,23 @@ loginProcess(){
   {
    // this.loginEmail = this.formGroup.value['email'];
    this.dataSharing.setEmail("EmailID",this.formGroup.value['email']);
-    this.authService.login(this.formGroup.value).subscribe(result=>{
-      if(result['status']==200){
+    
+   this.authService.login(this.formGroup.value).subscribe(result=>{
+      
+    if(result['status']==200){
         console.log("came into loginProcess()",result);
         console.log("Inside loginProcess(): username", this.formGroup.value['email']);
         console.log("Inside loginProcess(): Password", this.formGroup.value['password']);
         console.log("Role is: ",result['entity']);
-       // this.router.navigateByUrl('/receptionistPage');
-       this.router.navigateByUrl('/nursePage');
+
+              if(result['entity'] === "ROLE_RECEPTIONIST")
+                 this.router.navigateByUrl('/receptionistPage');
+        
+              else if(result['entity'] === "ROLE_NURSE")
+                 this.router.navigateByUrl('/nursePage');
+        
+              else if(result['entity'] === "ROLE_DOCTOR")
+                 this.router.navigateByUrl('/doctorPage');
         
       }
       else{

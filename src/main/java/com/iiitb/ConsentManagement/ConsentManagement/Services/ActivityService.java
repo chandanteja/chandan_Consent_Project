@@ -103,20 +103,29 @@ public class ActivityService {
     {
 
             List<Activity> activities = healthService.getActivityList();
+            Activity endednActivity = null;
 
             int temp=0;
             while(activities.size() != temp)
             {
 
-                if(activities.get(temp).getActivityType().equals(activityType))
+                if(activities.get(temp).getActivityType().equals(activityType))     // if activity is equal to given activity type
                 {
                     activities.get(temp).setEndTime(endTime);
+                    try {
+                        endednActivity = activityRepository.save(activities.get(temp));
+                    }
+                    catch(Exception e)
+                    {
+                        System.out.println("[Exception ]: Failed to save the ended activity");
+                        return null;
+                    }
                     break;
                 }
                 temp++;
 
             }
-            return  activities.get(temp);
+            return  endednActivity;
     }
 
     public String getPatientIDFromActorID(String actorID)
@@ -132,6 +141,40 @@ public class ActivityService {
 
             return patientID.get(0).getPatientID();
 
+    }
+
+    public Activity getActivityByActorIDAndTypeAndEndTimeAndPatientID(String actorID, ActivityType activityType ,LocalTime endTime,String patientID)
+    {
+        System.out.println("[ActivityService-getActivityByActorIDAndTypeAndEndTime()]: Came-here");
+
+        List<Activity> activity=null;
+
+        if(actorID != null)
+        {
+            activity = activityRepository.findByActorIDAndActivityTypeAndStartTimeIsNotNullAndEndTimeAndPatientID(actorID,activityType,null,patientID);
+
+        }
+
+        if(activity.size() == 0)
+            return null;    // Activity doesn't exist.
+
+        return activity.get(0);
+    }
+
+
+    public Activity saveActivity(Activity activity)
+    {
+        System.out.println("Inside ActivityService-saveActivity");
+
+        try{
+            activity = activityRepository.save(activity);
+        }
+        catch (Exception e)
+        {
+            System.out.println("[Exception]: Exception occured while saving activity object");
+            return null;
+        }
+        return activity;
     }
 
 }

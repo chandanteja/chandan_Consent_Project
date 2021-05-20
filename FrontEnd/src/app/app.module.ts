@@ -33,6 +33,10 @@ import { NurseComponent } from './nurse/nurse.component';
 import { NavbarNurseComponent } from './navbar-nurse/navbar-nurse.component';
 import { VitalFormComponent } from './vital-form/vital-form.component';
 import { CheckpatientNurseComponent } from './checkpatient-nurse/checkpatient-nurse.component';
+import { AssignDoctorComponent } from './assign-doctor/assign-doctor.component';
+import { DoctorpageComponent } from './doctorpage/doctorpage.component';
+import { DoctorNavbarComponent } from './doctor-navbar/doctor-navbar.component';
+import { DoctorFormComponent } from './doctor-form/doctor-form.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +51,10 @@ import { CheckpatientNurseComponent } from './checkpatient-nurse/checkpatient-nu
     NavbarNurseComponent,
     VitalFormComponent,
     CheckpatientNurseComponent,
+    AssignDoctorComponent,
+    DoctorpageComponent,
+    DoctorNavbarComponent,
+    DoctorFormComponent,
 
   ],
   imports: [
